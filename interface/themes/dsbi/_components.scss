@@ -311,6 +311,40 @@
   }
 
   /* Cards and panels */
+  // OpenEMR uses bg-secondary as a dark title band with light text. The
+  // secondary theme color is a light neutral here (it drives the outline
+  // buttons), so the background utility is pinned to navy to keep those
+  // titles readable.
+  .bg-secondary {
+    background-color: $dsbi-navy !important;
+    color: $dsbi-surface;
+  }
+
+  // Collapsible section titles (new patient, demographics, layout-based forms).
+  .card-header.bg-secondary,
+  .card-header.bg-dark,
+  .card-header.bg-primary {
+    border-bottom: 0;
+    color: $dsbi-surface;
+
+    .btn-link {
+      color: $dsbi-surface !important;
+      font-weight: $dsbi-font-weight-semibold;
+      padding: $dsbi-space-2 $dsbi-space-3;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        background-color: $dsbi-navy-raised;
+        text-decoration: none;
+      }
+
+      &:focus-visible {
+        box-shadow: $dsbi-focus-ring-on-navy;
+      }
+    }
+  }
+
   // Filter and criteria panels (flow board, recall board, reports).
   .jumbotron {
     background-image: $dsbi-gradient-panel;
@@ -379,26 +413,35 @@
   }
 
   // Legacy layout-based forms (demographics, history, encounter forms).
+  // A navy band with light labels; the current tab is a white tile.
   ul.tabNav {
-    border-bottom: 1px solid $dsbi-border;
+    background: $dsbi-navy;
+    border-radius: $dsbi-radius-lg $dsbi-radius-lg 0 0;
     margin-bottom: 0;
-    padding: 0;
+    padding: $dsbi-space-1 $dsbi-space-1 0;
+
+    li {
+      padding: 0 1px;
+    }
 
     li a {
-      border-bottom: 2px solid transparent;
-      color: $dsbi-text-muted-strong;
+      border-radius: $dsbi-radius $dsbi-radius 0 0;
+      color: $dsbi-text-on-navy;
       font-weight: $dsbi-font-weight-medium;
       padding: $dsbi-space-2 $dsbi-space-3;
       text-decoration: none;
 
       &:hover {
-        color: $dsbi-text;
+        background: $dsbi-navy-raised;
+        color: $dsbi-surface;
       }
     }
 
-    li.current a {
-      border-bottom-color: $dsbi-primary;
+    li.current a,
+    li.current a:hover {
+      background: $dsbi-surface;
       color: $dsbi-primary-hover;
+      font-weight: $dsbi-font-weight-semibold;
     }
   }
 
