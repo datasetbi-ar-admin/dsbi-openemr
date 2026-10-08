@@ -1,0 +1,52 @@
+/**
+ * DSBI theme for OpenEMR.
+ *
+ * Entry point only: the design system lives in ../dsbi/. Selectable from
+ * Administration > Config > Appearance > General Theme as "Dsbi".
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+@import "../dsbi/tokens";
+@import "../dsbi/bootstrap-variables";
+
+/* Bring in theme defaults so they use this palette */
+@import "../default-variables";
+
+// default-variables resets the base size unconditionally, so it is set after it.
+$font-size-base: $dsbi-font-size-base;
+
+// Import Bootstrap 4 SCSS Files before doing anything
+// This gets replaced at build time -- do not touch
+// bs4import
+
+// Fix Font Awesome fonts path
+$fa-font-path: "../assets/@fortawesome/fontawesome-free/webfonts";
+// Font Awesome Import
+@import "../../../public/assets/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../../public/assets/@fortawesome/fontawesome-free/scss/brands";
+@import "../../../public/assets/@fortawesome/fontawesome-free/scss/regular";
+@import "../../../public/assets/@fortawesome/fontawesome-free/scss/solid";
+
+/* Core OpenEMR imports (includes Select2 BS4 theme etc.) */
+@import "../core";
+
+/* Core defaults for themes */
+@import "../theme-defaults";
+
+@import "../navigation-slide/future-bootstrap";
+
+/* DSBI design system */
+@import "../dsbi/base";
+@import "../dsbi/components";
+@import "../dsbi/shell";
+@import "../dsbi/topics";
+@import "../dsbi/login";
+@import "../dsbi/modules";
+
+/* Last: BS4/OpenEMR helper overrides */
+@import "../oe-bootstrap";

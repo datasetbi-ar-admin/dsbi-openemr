@@ -513,6 +513,7 @@ $GLOBALS_METADATA = [
                 'login/layouts/horizontal_band_right_logo.html.twig' => xl("Horizontal Band, Logo on Right"),
                 'login/layouts/horizontal_band_left_logo.html.twig' => xl("Horizontal Band, Logo on Left"),
                 "login/layouts/vertical_band.html.twig" => xl("Vertical Band"),
+                'login/layouts/dsbi_split.html.twig' => xl("Split, Presentation Panel on Left"),
             ],
             'login/layouts/vertical_band.html.twig',
             xl('Changes the layout of the login page.')

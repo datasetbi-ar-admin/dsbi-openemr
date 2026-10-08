@@ -1,0 +1,565 @@
+/**
+ * DSBI theme - shared components.
+ *
+ * Refinements on top of the Bootstrap classes OpenEMR already uses. Colors and
+ * sizes come from the Bootstrap variables wherever one exists; only what
+ * Bootstrap 4 cannot express through variables lives here.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+@if $compact-theme == false {
+  /* Buttons */
+  .btn {
+    box-shadow: none;
+
+    &:focus-visible {
+      box-shadow: $dsbi-focus-ring;
+    }
+  }
+
+  // Primary action carries the brand gradient; the solid color stays as fallback.
+  .btn-primary {
+    background-image: $dsbi-gradient-active;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba($dsbi-primary, 0.25);
+
+    &:hover {
+      background-color: $dsbi-primary-hover;
+      border-color: transparent;
+      filter: brightness(0.94);
+    }
+
+    &:disabled,
+    &.disabled {
+      background-image: none;
+      box-shadow: none;
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+      background-color: $dsbi-primary-active;
+      border-color: $dsbi-primary-active;
+    }
+  }
+
+  // Secondary is the neutral action: white surface, visible boundary.
+  .btn-secondary {
+    background-color: $dsbi-surface;
+    border-color: $dsbi-border-control;
+    color: $dsbi-text;
+
+    &:hover,
+    &:focus {
+      background-color: $dsbi-gray-100;
+      border-color: $dsbi-border-control;
+      color: $dsbi-text;
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle {
+      background-color: $dsbi-gray-200;
+      border-color: $dsbi-border-control;
+      color: $dsbi-text;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: $dsbi-gray-100;
+      border-color: $dsbi-border-strong;
+      color: $dsbi-text-muted;
+    }
+  }
+
+  .btn-danger {
+    &:hover {
+      background-color: $dsbi-danger-strong;
+      border-color: $dsbi-danger-strong;
+    }
+  }
+
+  .btn-outline-success {
+    border-color: $dsbi-success-strong;
+    color: $dsbi-success-strong;
+  }
+
+  .btn-outline-warning {
+    border-color: $dsbi-warning-strong;
+    color: $dsbi-warning-strong;
+  }
+
+  .btn-link {
+    font-weight: $dsbi-font-weight-medium;
+  }
+
+  /* Forms */
+  label,
+  .col-form-label {
+    color: $dsbi-text;
+    font-weight: $dsbi-font-weight-medium;
+  }
+
+  .form-check-label,
+  .custom-control-label {
+    font-weight: $dsbi-font-weight-regular;
+  }
+
+  // Fields read as raised, rounded surfaces rather than flat boxes.
+  .form-control {
+    background-image: $dsbi-gradient-control;
+    box-shadow: inset 0 1px 1px rgba($dsbi-navy, 0.04);
+  }
+
+  select[multiple],
+  select[size]:not([size="1"]) {
+    background-image: none;
+    border: 1px solid $dsbi-border-control;
+    border-radius: $dsbi-radius-lg;
+    padding: $dsbi-space-1;
+  }
+
+  .form-control,
+  .custom-select {
+    transition: border-color $dsbi-transition, box-shadow $dsbi-transition;
+
+    &:hover:not(:disabled):not(:focus) {
+      border-color: $dsbi-text-muted-strong;
+    }
+
+    &:disabled,
+    &[readonly] {
+      color: $dsbi-text-muted-strong;
+    }
+  }
+
+  // Native controls OpenEMR renders without Bootstrap classes.
+  input[type="checkbox"],
+  input[type="radio"] {
+    accent-color: $dsbi-primary;
+  }
+
+  // Legacy screens print the label text right after the box, with no gap.
+  input[type="checkbox"]:not(.form-check-input):not(.custom-control-input),
+  input[type="radio"]:not(.form-check-input):not(.custom-control-input) {
+    margin-right: 0.375rem;
+    vertical-align: -0.125em;
+  }
+
+  // Long unbroken values wrap inside their cell instead of running over the next one.
+  td,
+  th,
+  .card-text,
+  .list-group-item {
+    overflow-wrap: break-word;
+  }
+
+  .form-text {
+    color: $dsbi-text-muted;
+    font-size: $dsbi-font-size-xs;
+  }
+
+  .invalid-feedback {
+    color: $dsbi-danger-strong;
+    font-weight: $dsbi-font-weight-medium;
+  }
+
+  .valid-feedback {
+    color: $dsbi-success-strong;
+  }
+
+  fieldset {
+    border-color: $dsbi-border;
+    border-radius: $dsbi-radius-lg;
+  }
+
+  legend {
+    color: $dsbi-text;
+    font-size: $dsbi-font-size-md;
+    font-weight: $dsbi-font-weight-semibold;
+  }
+
+  .select2-container--bootstrap4 {
+    .select2-selection {
+      border-color: $dsbi-border-control;
+      border-radius: $dsbi-radius;
+    }
+
+    &.select2-container--focus .select2-selection {
+      border-color: $dsbi-primary;
+      box-shadow: 0 0 0 $input-btn-focus-width $input-btn-focus-color;
+    }
+
+    .select2-results__option--highlighted,
+    .select2-results__option--highlighted.select2-results__option[aria-selected="true"] {
+      background-color: $dsbi-primary;
+      color: $dsbi-surface;
+    }
+  }
+
+  /* Tables */
+  .table {
+    background-color: $dsbi-surface;
+
+    thead th {
+      background-color: $dsbi-surface-muted;
+      border-bottom: 1px solid $dsbi-border-strong;
+      border-top: 0;
+      color: $dsbi-text-muted-strong;
+      font-size: $dsbi-font-size-xs;
+      font-weight: $dsbi-font-weight-bold;
+      letter-spacing: $dsbi-tracking-caps;
+      text-transform: uppercase;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+  }
+
+  .table-hover tbody tr {
+    transition: background-color $dsbi-transition;
+  }
+
+  // Wide clinical tables scroll inside their own box, never the page.
+  .table-responsive {
+    border-radius: $dsbi-radius-lg;
+    scrollbar-color: $dsbi-border-strong transparent;
+    scrollbar-width: thin;
+  }
+
+  /* DataTables (patient finder, reports, admin lists) */
+  .dataTables_wrapper {
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info {
+      color: $dsbi-text-muted-strong;
+      font-size: $dsbi-font-size-sm;
+    }
+
+    .dataTables_filter input,
+    .dataTables_length select {
+      border: 1px solid $dsbi-border-control;
+      border-radius: $dsbi-radius;
+      color: $dsbi-text;
+      padding: $dsbi-space-1 $dsbi-space-2;
+    }
+
+    .dataTables_processing {
+      background: $dsbi-surface;
+      border: 1px solid $dsbi-border;
+      border-radius: $dsbi-radius-lg;
+      box-shadow: $dsbi-shadow;
+      color: $dsbi-text;
+    }
+  }
+
+  // Pages ship their own <style> with !important borders for these cells;
+  // the doubled class outranks them without resorting to ids.
+  table.dataTable.dataTable {
+    border-collapse: separate;
+    border-spacing: 0;
+
+    thead th,
+    thead td {
+      background-color: $dsbi-surface-muted;
+      border-bottom: 1px solid $dsbi-border-strong !important;
+      color: $dsbi-text-muted-strong;
+      font-size: $dsbi-font-size-xs;
+      font-weight: $dsbi-font-weight-bold;
+      letter-spacing: $dsbi-tracking-caps;
+      position: sticky;
+      text-transform: uppercase;
+      top: 0;
+      z-index: 2;
+    }
+
+    tfoot th,
+    tfoot td {
+      border-top: 1px solid $dsbi-border-strong !important;
+    }
+
+    tbody td {
+      border-top: 1px solid $dsbi-border;
+    }
+
+    tbody tr:first-child td {
+      border-top: 0;
+    }
+
+    &.no-footer {
+      border-bottom: 1px solid $dsbi-border !important;
+    }
+
+    tbody tr:hover > * {
+      background-color: $dsbi-primary-soft;
+    }
+  }
+
+  /* Pagination */
+  .page-link {
+    font-size: $dsbi-font-size-sm;
+    font-weight: $dsbi-font-weight-medium;
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  .page-item.active .page-link {
+    color: $dsbi-surface;
+  }
+
+  /* Cards and panels */
+  // Filter and criteria panels (flow board, recall board, reports).
+  .jumbotron {
+    background-image: $dsbi-gradient-panel;
+    border: 1px solid $dsbi-border;
+    border-radius: $dsbi-radius-xl;
+    box-shadow: $dsbi-shadow-sm;
+  }
+
+  .card {
+    box-shadow: $dsbi-shadow-sm;
+  }
+
+  .card-header {
+    border-bottom-color: $dsbi-border;
+    font-weight: $dsbi-font-weight-semibold;
+  }
+
+  .card-title {
+    color: $dsbi-text;
+    font-weight: $dsbi-font-weight-semibold;
+  }
+
+  .list-group-item {
+    border-color: $dsbi-border;
+  }
+
+  /* In-page tabs and pills */
+  .nav-tabs {
+    .nav-link {
+      border-width: 0 0 2px;
+      color: $dsbi-text-muted-strong;
+      font-weight: $dsbi-font-weight-medium;
+      margin-bottom: -1px;
+
+      &:hover {
+        color: $dsbi-text;
+      }
+
+      &.active,
+      &.active:hover {
+        background-color: transparent;
+        border-color: $dsbi-primary;
+        color: $dsbi-primary-hover;
+      }
+    }
+
+    .nav-link.disabled {
+      color: $dsbi-text-muted;
+    }
+  }
+
+  .nav-pills .nav-link {
+    color: $dsbi-text-muted-strong;
+    font-weight: $dsbi-font-weight-medium;
+
+    &:hover {
+      background-color: $dsbi-gray-100;
+      color: $dsbi-text;
+    }
+
+    &.active,
+    &.active:hover {
+      background-color: $dsbi-primary;
+      color: $dsbi-surface;
+    }
+  }
+
+  // Legacy layout-based forms (demographics, history, encounter forms).
+  ul.tabNav {
+    border-bottom: 1px solid $dsbi-border;
+    margin-bottom: 0;
+    padding: 0;
+
+    li a {
+      border-bottom: 2px solid transparent;
+      color: $dsbi-text-muted-strong;
+      font-weight: $dsbi-font-weight-medium;
+      padding: $dsbi-space-2 $dsbi-space-3;
+      text-decoration: none;
+
+      &:hover {
+        color: $dsbi-text;
+      }
+    }
+
+    li.current a {
+      border-bottom-color: $dsbi-primary;
+      color: $dsbi-primary-hover;
+    }
+  }
+
+  /* Overlays */
+  .dropdown-menu {
+    box-shadow: $dsbi-shadow;
+    font-size: $dsbi-font-size-base;
+    padding: $dsbi-space-1;
+  }
+
+  .dropdown-item {
+    border-radius: $dsbi-radius-sm;
+    padding: $dsbi-space-2 $dsbi-space-3;
+
+    &.active,
+    &:active {
+      color: $dsbi-surface;
+    }
+  }
+
+  .modal-content {
+    box-shadow: $dsbi-shadow-lg;
+  }
+
+  .modal-header {
+    align-items: center;
+    padding: $dsbi-space-3 $dsbi-space-4;
+  }
+
+  .modal-title {
+    font-size: $dsbi-font-size-md;
+    font-weight: $dsbi-font-weight-semibold;
+  }
+
+  .modal-footer {
+    background-color: $dsbi-surface-muted;
+    border-bottom-left-radius: $dsbi-radius-xl;
+    border-bottom-right-radius: $dsbi-radius-xl;
+    padding: $dsbi-space-3 $dsbi-space-4;
+  }
+
+  .close {
+    opacity: 0.7;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+    }
+  }
+
+  .tooltip-inner {
+    font-weight: $dsbi-font-weight-medium;
+    padding: $dsbi-space-1 $dsbi-space-2;
+  }
+
+  /* Status: every state pairs its color with a weight change or a rule,
+     so meaning survives without color perception. */
+  .badge {
+    letter-spacing: 0.01em;
+  }
+
+  // Soft badges: tinted fill, strong text and a hairline of the same hue.
+  $badge-tones: (
+    "primary": ($dsbi-primary-soft, $dsbi-primary-hover),
+    "success": ($dsbi-success-soft, $dsbi-success-strong),
+    "warning": ($dsbi-warning-soft, $dsbi-warning-strong),
+    "danger": ($dsbi-danger-soft, $dsbi-danger-strong),
+    "info": ($dsbi-info-soft, $dsbi-info),
+    "secondary": ($dsbi-gray-100, $dsbi-gray-700)
+  );
+
+  @each $name, $tone in $badge-tones {
+    .badge-#{$name} {
+      background-color: nth($tone, 1);
+      border: 1px solid mix(nth($tone, 2), $dsbi-surface, 30%);
+      color: nth($tone, 2);
+    }
+  }
+
+  .alert {
+    border-left-width: 4px;
+  }
+
+  .alert-success {
+    background-color: $dsbi-success-soft;
+    border-color: $dsbi-success;
+    color: $dsbi-text;
+  }
+
+  .alert-warning {
+    background-color: $dsbi-warning-soft;
+    border-color: $dsbi-warning;
+    color: $dsbi-text;
+  }
+
+  .alert-danger {
+    background-color: $dsbi-danger-soft;
+    border-color: $dsbi-danger;
+    color: $dsbi-text;
+    font-weight: $dsbi-font-weight-medium;
+  }
+
+  .alert-info {
+    background-color: $dsbi-info-soft;
+    border-color: $dsbi-info;
+    color: $dsbi-text;
+  }
+
+  .alert .alert-link {
+    color: $dsbi-primary-active;
+    text-decoration: underline;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumb {
+    font-size: $dsbi-font-size-sm;
+    margin-bottom: $dsbi-space-2;
+  }
+
+  .breadcrumb-item.active {
+    font-weight: $dsbi-font-weight-medium;
+  }
+
+  /* Empty and loading states (opt-in helpers for new and migrated screens) */
+  .dsbi-empty {
+    align-items: center;
+    color: $dsbi-text-muted-strong;
+    display: flex;
+    flex-direction: column;
+    gap: $dsbi-space-2;
+    padding: $dsbi-space-6 $dsbi-space-4;
+    text-align: center;
+  }
+
+  .dsbi-empty__title {
+    color: $dsbi-text;
+    font-size: $dsbi-font-size-md;
+    font-weight: $dsbi-font-weight-semibold;
+    margin: 0;
+  }
+
+  .dsbi-skeleton {
+    animation: dsbi-skeleton 1.4s ease-in-out infinite;
+    background: linear-gradient(90deg, $dsbi-gray-200 25%, $dsbi-gray-100 37%, $dsbi-gray-200 63%);
+    background-size: 400% 100%;
+    border-radius: $dsbi-radius-sm;
+    min-height: 1em;
+  }
+
+  @keyframes dsbi-skeleton {
+    0% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0 50%;
+    }
+  }
+
+  .spinner-border {
+    border-width: 0.15em;
+    color: $dsbi-primary;
+  }
+}

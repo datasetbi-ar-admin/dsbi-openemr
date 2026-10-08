@@ -1,0 +1,268 @@
+/**
+ * DSBI theme - split login layout (templates/login/layouts/dsbi_split.html.twig).
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+// Hero photograph, relative to public/themes/. It sits under a left-to-right
+// navy veil that keeps the headline readable; set it to none to fall back to
+// the gradient alone.
+$dsbi-login-hero-image: url("../images/dsbi/login-hero.jpg") !default;
+$dsbi-login-breakpoint: 62rem;
+
+@if $compact-theme == false {
+  // Page: a soft backdrop with the login card centered on it.
+  .dsbi-login {
+    align-items: center;
+    background: linear-gradient(160deg, $dsbi-bg 0%, $dsbi-surface-sunken 100%);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: clamp(#{$dsbi-space-3}, 3vw, #{$dsbi-space-6});
+  }
+
+  .dsbi-login__card {
+    background-color: $dsbi-surface;
+    border-radius: 1.5rem;
+    box-shadow: $dsbi-shadow-lg;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 86rem;
+    overflow: hidden;
+    width: 100%;
+
+    @media (min-width: $dsbi-login-breakpoint) {
+      grid-template-columns: minmax(0, 1.45fr) minmax(26rem, 1fr);
+      min-height: min(52rem, calc(100vh - #{2 * $dsbi-space-6}));
+    }
+  }
+
+  /* Presentation panel */
+  .dsbi-login__hero {
+    @if $dsbi-login-hero-image == none {
+      background:
+        radial-gradient(60rem 40rem at 85% 20%, rgba($dsbi-primary, 0.55) 0%, transparent 60%),
+        radial-gradient(40rem 30rem at 10% 100%, rgba($dsbi-info, 0.35) 0%, transparent 65%),
+        linear-gradient(150deg, darken($dsbi-navy, 6%) 0%, $dsbi-navy 45%, $dsbi-primary-active 100%);
+    } @else {
+      background:
+        linear-gradient(90deg, rgba(darken($dsbi-navy, 8%), 0.9) 0%, rgba(darken($dsbi-navy, 6%), 0.62) 42%, rgba($dsbi-navy, 0) 78%),
+        $dsbi-login-hero-image right center / cover no-repeat,
+        $dsbi-navy;
+    }
+
+    color: $dsbi-surface;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    padding: $dsbi-space-6 clamp(#{$dsbi-space-5}, 5vw, 4.5rem);
+
+    @media (min-width: $dsbi-login-breakpoint) {
+      display: flex;
+    }
+  }
+
+  // The site logo, rendered solid white so any logo file reads on the photo.
+  .dsbi-login__brand-logo {
+    align-self: flex-start;
+    filter: brightness(0) invert(1);
+    height: 5.5rem;
+    margin: 0 0 $dsbi-space-5 -1.25rem;
+    width: auto;
+  }
+
+  .dsbi-login__brand {
+    font-size: $dsbi-font-size-xl;
+    font-weight: $dsbi-font-weight-bold;
+    letter-spacing: -0.01em;
+    margin-bottom: $dsbi-space-6;
+  }
+
+  .dsbi-login__headline {
+    color: $dsbi-surface;
+    font-size: clamp(1.75rem, 2.6vw, 2.75rem);
+    font-weight: $dsbi-font-weight-bold;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: $dsbi-space-4;
+    max-width: 17ch;
+  }
+
+  .dsbi-login__lead {
+    color: $dsbi-text-on-navy;
+    font-size: $dsbi-font-size-lg;
+    line-height: 1.45;
+    margin-bottom: $dsbi-space-6;
+    max-width: 30ch;
+  }
+
+  .dsbi-login__features {
+    display: grid;
+    gap: $dsbi-space-4;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      align-items: center;
+      display: flex;
+      gap: $dsbi-space-4;
+    }
+
+    strong {
+      display: block;
+      font-size: $dsbi-font-size-md;
+      font-weight: $dsbi-font-weight-semibold;
+    }
+
+    strong + span {
+      color: $dsbi-text-on-navy;
+      font-size: $dsbi-font-size-sm;
+    }
+  }
+
+  // Framed icon tiles, lit from the top-left.
+  .dsbi-login__feature-icon {
+    align-items: center;
+    background: linear-gradient(145deg, rgba($dsbi-primary, 0.45) 0%, rgba($dsbi-navy, 0.35) 100%);
+    border: 1px solid rgba($dsbi-primary-border, 0.55);
+    border-radius: $dsbi-radius-xl;
+    box-shadow: inset 0 1px 0 rgba($dsbi-surface, 0.18), 0 6px 16px rgba($dsbi-navy, 0.35);
+    color: $dsbi-primary-border;
+    display: inline-flex;
+    flex: 0 0 3.5rem;
+    font-size: $dsbi-font-size-xl;
+    height: 3.5rem;
+    justify-content: center;
+  }
+
+  /* Form panel */
+  .dsbi-login__panel {
+    align-items: center;
+    background-color: $dsbi-surface;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    max-width: none;
+    padding: $dsbi-space-6 $dsbi-space-5;
+    width: 100%;
+  }
+
+  .dsbi-login__form {
+    max-width: 24rem;
+    width: 100%;
+  }
+
+  .dsbi-login__logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $dsbi-space-4;
+
+    > div {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    img {
+      // The stock logo file carries generous transparent margins.
+      height: 6.5rem;
+      max-width: 100%;
+      width: auto;
+    }
+  }
+
+  .dsbi-login__tagline {
+    color: $dsbi-text-muted-strong;
+    font-size: $dsbi-font-size-base;
+    margin: 0 auto $dsbi-space-5;
+    max-width: 30ch;
+    text-align: center;
+  }
+
+  .dsbi-login__form .login-failure p,
+  .dsbi-login__form .relogin p {
+    background-color: $dsbi-danger-soft;
+    border: 1px solid mix($dsbi-danger, $dsbi-surface, 35%);
+    border-left-width: 4px;
+    border-radius: $dsbi-radius-lg;
+    padding: $dsbi-space-2 $dsbi-space-3;
+  }
+
+  // Leading icon inside each field; the label itself is visually hidden.
+  .dsbi-field {
+    margin-bottom: $dsbi-space-3;
+    position: relative;
+
+    &::before {
+      @include dsbi-icon-font;
+      color: $dsbi-text-muted-strong;
+      font-size: $dsbi-font-size-md;
+      left: $dsbi-space-3;
+      pointer-events: none;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1.25rem;
+      z-index: 4;
+    }
+
+    // Stock partials wrap two of the selects in a bare grid column.
+    > .col {
+      padding: 0;
+    }
+
+    // select.form-control[size] gets height: auto from Bootstrap, hence the tag.
+    .form-control,
+    select.form-control {
+      height: 3rem;
+      padding-left: 2.75rem;
+    }
+
+    .input-group-text {
+      background: $dsbi-surface;
+      border-bottom-right-radius: $dsbi-radius-lg;
+      border-top-right-radius: $dsbi-radius-lg;
+      color: $dsbi-text-muted-strong;
+      min-width: 3rem;
+    }
+  }
+
+  .dsbi-field--user::before {
+    content: "\f007";
+  }
+
+  .dsbi-field--password::before {
+    content: "\f023";
+  }
+
+  .dsbi-field--language::before {
+    content: "\f0ac";
+  }
+
+  .dsbi-field--facility::before {
+    content: "\f1ad";
+  }
+
+  .dsbi-login__actions {
+    margin: $dsbi-space-4 0;
+
+    #login-button {
+      box-shadow: 0 6px 16px rgba($dsbi-primary, 0.3);
+      font-size: $dsbi-font-size-md;
+      height: 3rem;
+    }
+  }
+
+  .dsbi-login__legal {
+    border-top: 1px solid $dsbi-border;
+    font-size: $dsbi-font-size-sm;
+    margin: $dsbi-space-5 0 0;
+    padding-top: $dsbi-space-4;
+    text-align: center;
+  }
+}

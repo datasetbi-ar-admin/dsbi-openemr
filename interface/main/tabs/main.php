@@ -387,6 +387,7 @@ $twig = ServiceContainer::getTwig();
     <script src="js/frame_proxies.js?v=<?php echo OEGlobalsBag::getInstance()->getString('v_js_includes'); ?>"></script>
     <script src="js/dialog_utils.js?v=<?php echo OEGlobalsBag::getInstance()->getString('v_js_includes'); ?>"></script>
     <script src="js/shortcuts.js?v=<?php echo OEGlobalsBag::getInstance()->getString('v_js_includes'); ?>"></script>
+    <script src="js/dsbi_sidebar.js?v=<?php echo OEGlobalsBag::getInstance()->getString('v_js_includes'); ?>"></script>
 
     <?php
     // Below code block is to prepare certain elements for deciding what links to show on the menu

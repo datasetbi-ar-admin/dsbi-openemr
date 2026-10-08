@@ -154,24 +154,28 @@ module.exports = (env, argv) => {
     style_dark:          entry("oe-styles/style_dark.scss"),
     style_solar:         entry("oe-styles/style_solar.scss"),
     style_manila:        entry("oe-styles/style_manila.scss"),
+    style_dsbi:          entry("oe-styles/style_dsbi.scss"),
 
     // ── oe-styles compact themes ─────────────────────────────────────────────
     compact_style_light:  entry("oe-styles/style_light.scss",  "compact"),
     compact_style_dark:   entry("oe-styles/style_dark.scss",   "compact"),
     compact_style_solar:  entry("oe-styles/style_solar.scss",  "compact"),
     compact_style_manila: entry("oe-styles/style_manila.scss", "compact"),
+    compact_style_dsbi:   entry("oe-styles/style_dsbi.scss",   "compact"),
 
     // ── oe-styles RTL themes ─────────────────────────────────────────────────
     rtl_style_light:  entry("oe-styles/style_light.scss",  "rtl"),
     rtl_style_dark:   entry("oe-styles/style_dark.scss",   "rtl"),
     rtl_style_solar:  entry("oe-styles/style_solar.scss",  "rtl"),
     rtl_style_manila: entry("oe-styles/style_manila.scss", "rtl"),
+    rtl_style_dsbi:   entry("oe-styles/style_dsbi.scss",   "rtl"),
 
     // ── oe-styles RTL compact themes ─────────────────────────────────────────
     rtl_compact_style_light:  entry("oe-styles/style_light.scss",  "rtl_compact"),
     rtl_compact_style_dark:   entry("oe-styles/style_dark.scss",   "rtl_compact"),
     rtl_compact_style_solar:  entry("oe-styles/style_solar.scss",  "rtl_compact"),
     rtl_compact_style_manila: entry("oe-styles/style_manila.scss", "rtl_compact"),
+    rtl_compact_style_dsbi:   entry("oe-styles/style_dsbi.scss",   "rtl_compact"),
 
     // ── color variant themes (LTR) ───────────────────────────────────────────
     style_cobalt_blue:  entry("colors/style_cobalt_blue.scss"),
@@ -192,10 +196,12 @@ module.exports = (env, argv) => {
     // ── tabs themes (LTR) ────────────────────────────────────────────────────
     tabs_style_full:    entry("tabs_style_full.scss"),
     tabs_style_compact: entry("tabs_style_compact.scss"),
+    tabs_style_dsbi:    entry("tabs_style_dsbi.scss"),
 
     // ── tabs themes (RTL) ────────────────────────────────────────────────────
     rtl_tabs_style_full:    entry("tabs_style_full.scss",    "rtl_tabs"),
     rtl_tabs_style_compact: entry("tabs_style_compact.scss", "rtl_tabs"),
+    rtl_tabs_style_dsbi:    entry("tabs_style_dsbi.scss",    "rtl_tabs"),
 
     // ── root-level themes (no variant transforms) ────────────────────────────
     style:       entry("style.scss"),

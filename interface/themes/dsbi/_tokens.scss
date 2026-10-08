@@ -1,0 +1,125 @@
+/**
+ * DSBI theme - design tokens.
+ *
+ * Single source of truth for color, type, spacing, radius and elevation.
+ * Every other partial reads these; no raw hex values outside this file.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+// Brand
+$dsbi-primary: #2563eb;
+$dsbi-primary-hover: #1d4ed8;
+$dsbi-primary-active: #1e40af;
+$dsbi-primary-soft: #eff4ff;
+$dsbi-primary-border: #bfd3fb;
+$dsbi-navy: #14263d;
+$dsbi-navy-raised: #1d3552;
+
+// Surfaces
+$dsbi-bg: #f5f7fa;
+$dsbi-surface: #fff;
+$dsbi-surface-muted: #f8fafc;
+$dsbi-surface-sunken: #e9eef5;
+
+// Text
+$dsbi-text: #172033;
+$dsbi-text-muted: #64748b;
+// Muted text placed on $dsbi-bg instead of white; #64748b falls just under 4.5:1 there.
+$dsbi-text-muted-strong: #526079;
+$dsbi-text-on-navy: #dbe4f0;
+$dsbi-text-on-navy-muted: #b6c2d2;
+
+// Lines
+$dsbi-border: #e2e8f0;
+$dsbi-border-strong: #cbd5e1;
+// Form control boundary: must reach 3:1 against the surface (WCAG 1.4.11).
+$dsbi-border-control: #7f8ea3;
+$dsbi-border-on-navy: #8ea0b8;
+
+// Status. The base value is for icons, borders and fills behind dark text;
+// the "-strong" value is the one that carries white text or sits as text on white.
+$dsbi-success: #16a34a;
+$dsbi-success-strong: #15803d;
+$dsbi-success-soft: #f0fdf4;
+$dsbi-warning: #d97706;
+$dsbi-warning-strong: #b45309;
+$dsbi-warning-soft: #fffbeb;
+$dsbi-danger: #dc2626;
+$dsbi-danger-strong: #b91c1c;
+$dsbi-danger-soft: #fef2f2;
+$dsbi-info: #0e7490;
+$dsbi-info-soft: #ecfeff;
+
+// Neutral scale (feeds Bootstrap's $gray-*)
+$dsbi-gray-100: #f1f5f9;
+$dsbi-gray-200: #e2e8f0;
+$dsbi-gray-300: #cbd5e1;
+$dsbi-gray-400: #94a3b8;
+$dsbi-gray-500: #64748b;
+$dsbi-gray-600: #475569;
+$dsbi-gray-700: #334155;
+$dsbi-gray-800: #1e293b;
+$dsbi-gray-900: #172033;
+
+// Typography
+$dsbi-font-family: "DM Sans Variable", "DM Sans", system-ui, -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+// The root is scaled to 14px (see _base), so every rem below is 14px-based:
+// base text lands on 13px and legacy rem-sized screens shrink with it.
+$dsbi-root-font-size: 87.5%;
+$dsbi-font-size-xs: 0.8125rem;
+$dsbi-font-size-sm: 0.875rem;
+$dsbi-font-size-base: 0.9375rem;
+$dsbi-font-size-md: 1.0625rem;
+$dsbi-font-size-lg: 1.1875rem;
+$dsbi-font-size-xl: 1.4375rem;
+$dsbi-font-size-2xl: 1.75rem;
+$dsbi-font-weight-regular: 400;
+$dsbi-font-weight-medium: 500;
+$dsbi-font-weight-semibold: 600;
+$dsbi-font-weight-bold: 700;
+$dsbi-line-height: 1.5;
+$dsbi-line-height-tight: 1.25;
+$dsbi-tracking-tight: -0.02em;
+$dsbi-tracking-caps: 0.08em;
+
+// Spacing (4px grid)
+$dsbi-space-1: 0.25rem;
+$dsbi-space-2: 0.5rem;
+$dsbi-space-3: 0.75rem;
+$dsbi-space-4: 1rem;
+$dsbi-space-5: 1.5rem;
+$dsbi-space-6: 2rem;
+
+// Shape and elevation
+$dsbi-radius-sm: 0.25rem;
+$dsbi-radius: 0.375rem;
+$dsbi-radius-lg: 0.5rem;
+$dsbi-radius-xl: 0.875rem;
+$dsbi-shadow-sm: 0 1px 2px rgba($dsbi-navy, 0.06);
+$dsbi-shadow: 0 4px 12px rgba($dsbi-navy, 0.1);
+$dsbi-shadow-lg: 0 16px 40px rgba($dsbi-navy, 0.18);
+
+// Interaction
+$dsbi-focus-ring: 0 0 0 2px $dsbi-surface, 0 0 0 4px $dsbi-primary;
+$dsbi-focus-ring-on-navy: 0 0 0 2px $dsbi-navy, 0 0 0 4px $dsbi-surface;
+$dsbi-transition: 0.12s ease-in-out;
+// Smallest pointer target allowed by WCAG 2.2 (2.5.8).
+$dsbi-target-min: 1.75rem;
+$dsbi-shell-header-height: 3.25rem;
+
+// Sidebar: deep navy surface, sky icons and a gradient pill for the open entry.
+// White text reaches 4.5:1 on both ends of the gradient.
+$dsbi-sidebar-bg: #0b1730;
+$dsbi-sidebar-bg-raised: rgba($dsbi-surface, 0.08);
+$dsbi-sidebar-line: rgba($dsbi-surface, 0.12);
+$dsbi-sidebar-icon: #5eb8ff;
+$dsbi-gradient-active: linear-gradient(90deg, #1273d4 0%, #4f5fe6 100%);
+
+// Soft top-to-bottom fills for fields and panels.
+$dsbi-gradient-control: linear-gradient(180deg, $dsbi-surface 0%, $dsbi-surface-muted 100%);
+$dsbi-gradient-panel: linear-gradient(180deg, $dsbi-surface 0%, $dsbi-primary-soft 100%);

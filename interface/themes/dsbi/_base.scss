@@ -1,0 +1,152 @@
+/**
+ * DSBI theme - fonts, CSS custom properties and document-level styles.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+// DM Sans is served from public/assets (npm: @fontsource-variable/dm-sans), never from a CDN.
+$dsbi-font-path: "../assets/@fontsource-variable/dm-sans/files" !default;
+$dsbi-unicode-latin: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD";
+$dsbi-unicode-latin-ext: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF";
+
+@mixin dsbi-font-face($subset, $style, $range) {
+  @font-face {
+    font-display: swap;
+    font-family: "DM Sans Variable";
+    font-style: $style;
+    font-weight: 100 1000;
+    src: url("#{$dsbi-font-path}/dm-sans-#{$subset}-wght-#{$style}.woff2") format("woff2-variations");
+    unicode-range: #{$range};
+  }
+}
+
+@if $compact-theme == false {
+  @include dsbi-font-face("latin", normal, $dsbi-unicode-latin);
+  @include dsbi-font-face("latin", italic, $dsbi-unicode-latin);
+  @include dsbi-font-face("latin-ext", normal, $dsbi-unicode-latin-ext);
+  @include dsbi-font-face("latin-ext", italic, $dsbi-unicode-latin-ext);
+
+  // Runtime mirror of the tokens, for module overrides and inline legacy styles.
+  :root {
+    --dsbi-primary: #{$dsbi-primary};
+    --dsbi-primary-hover: #{$dsbi-primary-hover};
+    --dsbi-primary-soft: #{$dsbi-primary-soft};
+    --dsbi-navy: #{$dsbi-navy};
+    --dsbi-bg: #{$dsbi-bg};
+    --dsbi-surface: #{$dsbi-surface};
+    --dsbi-surface-muted: #{$dsbi-surface-muted};
+    --dsbi-text: #{$dsbi-text};
+    --dsbi-text-muted: #{$dsbi-text-muted};
+    --dsbi-border: #{$dsbi-border};
+    --dsbi-border-strong: #{$dsbi-border-strong};
+    --dsbi-success: #{$dsbi-success};
+    --dsbi-success-strong: #{$dsbi-success-strong};
+    --dsbi-warning: #{$dsbi-warning};
+    --dsbi-warning-strong: #{$dsbi-warning-strong};
+    --dsbi-danger: #{$dsbi-danger};
+    --dsbi-danger-strong: #{$dsbi-danger-strong};
+    --dsbi-radius: #{$dsbi-radius};
+    --dsbi-radius-lg: #{$dsbi-radius-lg};
+    --dsbi-shadow-sm: #{$dsbi-shadow-sm};
+    --dsbi-shadow: #{$dsbi-shadow};
+
+    // Hooks already read by OpenEMR core styles.
+    --oe-body-bg: #{$dsbi-bg};
+    --oe-body-color: #{$dsbi-text};
+    --oe-surface-bg: #{$dsbi-surface};
+    --oe-panel-bg: #{$dsbi-surface};
+    --oe-fieldset-bg: #{$dsbi-surface-muted};
+    --oe-fieldset-color: #{$dsbi-text};
+    --oe-search-bg: #{$dsbi-surface};
+  }
+
+  // One knob for density: OpenEMR sizes most legacy screens in rem.
+  html {
+    font-size: $dsbi-root-font-size;
+  }
+
+  // Headings: heavy and tightly tracked, the signature of the DSBI products.
+  h1,
+  h2,
+  h3,
+  .h1,
+  .h2,
+  .h3 {
+    letter-spacing: $dsbi-tracking-tight;
+  }
+
+  // Small uppercase label above a title or a group of fields.
+  .dsbi-eyebrow {
+    color: $dsbi-primary-hover;
+    font-size: $dsbi-font-size-xs;
+    font-weight: $dsbi-font-weight-bold;
+    letter-spacing: $dsbi-tracking-caps;
+    text-transform: uppercase;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizelegibility;
+  }
+
+  .body_main,
+  .body_main_widescreen {
+    background-color: $dsbi-bg !important;
+  }
+
+  // Keyboard focus is always visible; pointer focus keeps the quieter component style.
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible,
+  summary:focus-visible {
+    border-radius: $dsbi-radius-sm;
+    box-shadow: $dsbi-focus-ring;
+    outline: 2px solid transparent;
+  }
+
+  ::selection {
+    background-color: $dsbi-primary-border;
+    color: $dsbi-text;
+  }
+
+  .text-muted {
+    color: $dsbi-text-muted !important;
+  }
+
+  // The secondary theme color is a light fill; as text it would vanish.
+  .text-secondary {
+    color: $dsbi-text-muted-strong !important;
+  }
+
+  .text-success {
+    color: $dsbi-success-strong !important;
+  }
+
+  .text-warning {
+    color: $dsbi-warning-strong !important;
+  }
+
+  .text-danger {
+    color: $dsbi-danger-strong !important;
+  }
+
+  hr {
+    border-top-color: $dsbi-border;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

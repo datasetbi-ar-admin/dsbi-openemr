@@ -21,6 +21,8 @@
     {
         var self=this;
         self.label=ko.observable(object.label);
+        // Exposed so layouts can style an entry by its identity (see menu_template).
+        self.menu_id=object.menu_id;
 
         self.header=false;
         if('url' in object )

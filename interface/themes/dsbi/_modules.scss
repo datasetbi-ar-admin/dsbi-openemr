@@ -1,0 +1,198 @@
+/**
+ * DSBI theme - screen-specific overrides.
+ *
+ * One block per screen, each anchored on that screen's own root selector so
+ * nothing leaks into other modules. Pilot scope: login, page heading,
+ * patient finder and patient dashboard.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+@if $compact-theme == false {
+  /* Login */
+  #login-button {
+    font-weight: $dsbi-font-weight-semibold;
+    padding-bottom: $dsbi-space-2;
+    padding-top: $dsbi-space-2;
+  }
+
+  /* Page heading bar shared by most screens */
+  #pageHeadingNav,
+  .navbar.bg-light:not(.fixed-top):not(.sticky-top) {
+    border-bottom: 1px solid $dsbi-border;
+  }
+
+  .navbar-light .navbar-brand.h1,
+  .navbar-light .navbar-brand {
+    color: $dsbi-text;
+    font-size: $dsbi-font-size-xl;
+    font-weight: $dsbi-font-weight-bold;
+    letter-spacing: $dsbi-tracking-tight;
+  }
+
+  .navbar-light .navbar-nav .nav-link {
+    border-radius: $dsbi-radius;
+    color: $dsbi-text-muted-strong;
+    font-weight: $dsbi-font-weight-medium;
+
+    &:hover,
+    &:focus {
+      background-color: $dsbi-gray-100;
+      color: $dsbi-text;
+    }
+
+    &.active {
+      background-color: $dsbi-primary-soft;
+      color: $dsbi-primary-active;
+    }
+  }
+
+  /* Patient finder */
+  #pt_table_wrapper {
+    background-color: $dsbi-surface;
+    border: 1px solid $dsbi-border;
+    border-radius: $dsbi-radius-lg;
+    box-shadow: $dsbi-shadow-sm;
+    padding: $dsbi-space-3;
+  }
+
+  /* Configuration: its rows have no gutter container, so Bootstrap's negative
+     margins pushed the page a few pixels wider than the window. */
+  #globals-div .tab .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Patient dashboard: every card is a section; clinical ones carry a topic */
+  .patient-demographic {
+    .card {
+      @include dsbi-section;
+    }
+
+    // What a clinician scans for first.
+    .card:has(#allergy_ps_expand) {
+      @include dsbi-topic("alert", "alert");
+    }
+
+    .card:has(#medical_problem_ps_expand) {
+      @include dsbi-topic("condition", "condition");
+    }
+
+    .card:has(#health_concern_ps_expand) {
+      @include dsbi-topic("condition", "concern");
+    }
+
+    .card:has(#clinical_reminders_ps_expand) {
+      @include dsbi-topic("condition", "reminder");
+    }
+
+    .card:has(#medication_ps_expand) {
+      @include dsbi-topic("medication", "medication");
+    }
+
+    .card:has(#prescriptions_ps_expand) {
+      @include dsbi-topic("order", "prescription");
+    }
+
+    .card:has(#immunizations_ps_expand) {
+      @include dsbi-topic("order", "immunization");
+    }
+
+    .card:has(#vitals_ps_expand) {
+      @include dsbi-topic("measure", "vitals");
+    }
+
+    .card:has(#labdata_ps_expand) {
+      @include dsbi-topic("measure", "lab");
+    }
+
+    // Administrative and care-coordination sections stay neutral.
+    $neutral-icons: (
+      "careteam_ps_expand": "team",
+      "treatmentpref_ps_expand": "preference",
+      "carepref_ps_expand": "experience",
+      "card_care_plan": "plan",
+      "demographics_ps_expand": "person",
+      "billing_ps_expand": "billing",
+      "insurance_ps_expand": "insurance",
+      "pnotes_ps_expand": "message",
+      "patient_reminders_ps_expand": "reminder",
+      "disclosures_ps_expand": "disclosure",
+      "amendments_ps_expand": "amendment",
+      "patient_portal_expand": "portal",
+      "recall_ps_expand": "recall",
+      "appointments_ps_expand": "appointment"
+    );
+
+    @each $id, $icon in $neutral-icons {
+      .card:has(##{$id}) {
+        @include dsbi-section-icon($icon);
+      }
+    }
+  }
+
+  /* Patient report: long checkbox lists get rows, gutters and their own panels */
+  #patient_reports {
+    fieldset,
+    .issues,
+    .encounters {
+      background-color: $dsbi-surface;
+      border: 1px solid $dsbi-border;
+      border-radius: $dsbi-radius-lg;
+      box-shadow: $dsbi-shadow-sm;
+      margin-bottom: $dsbi-space-3;
+      padding: $dsbi-space-3 $dsbi-space-4;
+    }
+
+    // The two panels above already sit inside the report fieldset.
+    fieldset .issues,
+    fieldset .encounters {
+      box-shadow: none;
+    }
+
+    .oe-report-section-header {
+      color: $dsbi-text;
+      display: inline-block;
+      font-size: $dsbi-font-size-md;
+      font-weight: $dsbi-font-weight-semibold;
+      margin-bottom: $dsbi-space-2;
+    }
+
+    .includes td {
+      line-height: 1.9;
+      padding: $dsbi-space-1 $dsbi-space-5 $dsbi-space-1 0;
+      white-space: nowrap;
+    }
+
+    .issues .table td {
+      border-top: 1px solid $dsbi-border;
+      line-height: $dsbi-line-height-tight;
+      padding: $dsbi-space-2;
+      vertical-align: top;
+
+      // Date ranges read as secondary to the name.
+      &:not(:first-child) {
+        color: $dsbi-text-muted-strong;
+        font-size: $dsbi-font-size-sm;
+      }
+    }
+
+    .encounter_data {
+      border-top: 1px solid $dsbi-border;
+      font-weight: $dsbi-font-weight-medium;
+      margin-top: $dsbi-space-2;
+      padding-top: $dsbi-space-2;
+    }
+
+    // Box and label are bare siblings here, so spacing comes from the line box.
+    .encounter_forms {
+      font-weight: $dsbi-font-weight-regular;
+      line-height: 1.9;
+      padding: $dsbi-space-1 0 0 $dsbi-space-5;
+    }
+  }
+}

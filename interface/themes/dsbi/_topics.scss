@@ -1,0 +1,197 @@
+/**
+ * DSBI theme - sections and topics.
+ *
+ * The pattern for information-dense screens:
+ *
+ *   1. Every block of related data is a "section": a bordered surface whose
+ *      header carries an icon, a title, a collapse chevron and its actions.
+ *   2. A section belongs to a "topic". Clinical topics a clinician scans for
+ *      first get a tinted surface and a colored icon and title; everything
+ *      administrative stays neutral so the tinted ones stand out.
+ *   3. Color is never the only carrier: each topic also has its own icon and
+ *      its title text.
+ *
+ * Screens opt in through the mixins below (see _modules.scss) or, in new
+ * markup, through the .dsbi-section / .dsbi-topic-* classes.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+// accent: icon and border tint (3:1 on its soft fill)
+// strong: title text (4.5:1 on its soft fill)
+// soft: surface tint
+$dsbi-topics: (
+  "alert": (accent: $dsbi-danger, strong: $dsbi-danger-strong, soft: $dsbi-danger-soft),
+  "condition": (accent: $dsbi-warning, strong: $dsbi-warning-strong, soft: $dsbi-warning-soft),
+  "medication": (accent: $dsbi-primary, strong: $dsbi-primary-hover, soft: $dsbi-primary-soft),
+  "order": (accent: $dsbi-success, strong: $dsbi-success-strong, soft: $dsbi-success-soft),
+  "measure": (accent: $dsbi-info, strong: $dsbi-info, soft: $dsbi-info-soft)
+);
+
+// Font Awesome 6 solid glyphs, by meaning.
+$dsbi-icons: (
+  "alert": "\f071",
+  "condition": "\f0f1",
+  "medication": "\f484",
+  "prescription": "\f572",
+  "immunization": "\f48e",
+  "vitals": "\f21e",
+  "lab": "\f0c3",
+  "concern": "\f481",
+  "team": "\f0c0",
+  "preference": "\f4be",
+  "experience": "\f086",
+  "plan": "\f0ae",
+  "person": "\f2bb",
+  "billing": "\f09d",
+  "insurance": "\f3ed",
+  "message": "\f0e0",
+  "reminder": "\f0f3",
+  "disclosure": "\f1e0",
+  "amendment": "\f044",
+  "portal": "\f109",
+  "recall": "\f1da",
+  "appointment": "\f073",
+  "document": "\f15c",
+  "expand": "\f078",
+  "collapse": "\f077"
+);
+
+@mixin dsbi-icon-font {
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-family: "Font Awesome 6 Free";
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+}
+
+// Section anatomy on Bootstrap's .card > .card-body > .card-title + .collapse
+// markup, as rendered by templates/patient/card/card_base.html.twig.
+@mixin dsbi-section {
+  background-color: $dsbi-surface;
+  border: 1px solid $dsbi-border;
+  border-radius: $dsbi-radius-lg;
+  box-shadow: $dsbi-shadow-sm;
+  margin-bottom: $dsbi-space-2;
+
+  .card-body {
+    padding: 0 !important;
+  }
+
+  .card-title {
+    align-items: center;
+    border-bottom: 0;
+    gap: $dsbi-space-1;
+    padding: $dsbi-space-1 $dsbi-space-2 $dsbi-space-1 $dsbi-space-3 !important;
+
+    // The whole header row toggles the section.
+    > a:first-child {
+      align-items: center;
+      color: $dsbi-text;
+      display: flex;
+      flex: 1 1 auto;
+      font-size: $dsbi-font-size-base;
+      font-weight: $dsbi-font-weight-semibold !important;
+      gap: $dsbi-space-2;
+      min-height: $dsbi-target-min;
+      min-width: 0;
+      text-decoration: none;
+
+      &::before {
+        @include dsbi-icon-font;
+        color: $dsbi-text-muted-strong;
+        content: map-get($dsbi-icons, "document");
+        flex: 0 0 1.25rem;
+        font-size: $dsbi-font-size-md;
+      }
+
+      // The stock expand/compress glyphs become a chevron at the far end.
+      > .fa {
+        color: $dsbi-text-muted-strong;
+        font-size: $dsbi-font-size-xs;
+        margin-left: auto !important;
+
+        &.fa-expand::before {
+          content: map-get($dsbi-icons, "expand");
+        }
+
+        &.fa-compress::before {
+          content: map-get($dsbi-icons, "collapse");
+        }
+      }
+    }
+
+    // Header actions (edit, add) as square icon buttons.
+    > span a {
+      align-items: center;
+      border-radius: $dsbi-radius;
+      color: $dsbi-primary-hover;
+      display: inline-flex;
+      height: $dsbi-target-min;
+      justify-content: center;
+      min-width: $dsbi-target-min;
+      text-decoration: none;
+
+      &:hover {
+        background-color: rgba($dsbi-navy, 0.08);
+      }
+    }
+  }
+
+  .card-text.show,
+  .card-text.collapsing {
+    border-top: 1px solid rgba($dsbi-navy, 0.08);
+    padding: $dsbi-space-2 $dsbi-space-3;
+  }
+
+  .list-group-item {
+    background-color: transparent;
+    border-color: rgba($dsbi-navy, 0.08);
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@mixin dsbi-section-icon($icon) {
+  .card-title > a:first-child::before {
+    content: map-get($dsbi-icons, $icon);
+  }
+}
+
+@mixin dsbi-topic($topic, $icon: null) {
+  $t: map-get($dsbi-topics, $topic);
+
+  background-color: map-get($t, soft);
+  border-color: mix(map-get($t, accent), $dsbi-surface, 35%);
+
+  .card-title > a:first-child {
+    color: map-get($t, strong);
+
+    &::before {
+      color: map-get($t, accent);
+    }
+  }
+
+  @if $icon {
+    @include dsbi-section-icon($icon);
+  }
+}
+
+@if $compact-theme == false {
+  // Opt-in classes for new or migrated markup.
+  .dsbi-section {
+    @include dsbi-section;
+  }
+
+  @each $topic, $t in $dsbi-topics {
+    .dsbi-topic-#{$topic} {
+      @include dsbi-topic($topic, $topic);
+    }
+  }
+}

@@ -99,6 +99,7 @@ interface/themes/core/text.scss
 interface/themes/core/therapy-groups.scss
 interface/themes/default-variables.scss
 interface/themes/directional.scss
+interface/themes/dsbi/*.scss
 interface/themes/login_page.scss
 interface/themes/misc/edi_history_v2.scss
 interface/themes/misc/encounters.scss
@@ -115,6 +116,7 @@ interface/themes/oemr_compact_imports.scss
 interface/themes/oemr_rtl_compact_imports.scss
 interface/themes/oemr-rtl.scss
 interface/themes/oe-styles/style_dark.scss
+interface/themes/oe-styles/style_dsbi.scss
 interface/themes/oe-styles/style_light.scss
 interface/themes/oe-styles/style_manila.scss
 interface/themes/oe-styles/style_solar.scss
@@ -122,5 +124,6 @@ interface/themes/rtl.scss
 interface/themes/style_pdf.scss
 interface/themes/style.scss
 interface/themes/tabs_style_compact.scss
+interface/themes/tabs_style_dsbi.scss
 interface/themes/tabs_style_full.scss
 interface/themes/theme-defaults.scss

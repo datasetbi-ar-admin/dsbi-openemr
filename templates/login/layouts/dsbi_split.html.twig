@@ -1,0 +1,87 @@
+{#
+A split login layout
+
+A presentation panel on the left and the login form on the right. It reuses the
+stock login partials, so the form, its fields and its submit logic are the same
+as in every other layout; only the surrounding structure differs. The styling
+lives in the DSBI theme (interface/themes/dsbi/_login.scss).
+
+@package OpenEMR
+@subpackage Login
+@author DatasetBI
+@copyright Copyright (c) 2026 DatasetBI
+@license https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+#}
+{% extends "login/base.html.twig" %}
+
+{% block content %}
+{# Labels stay in the markup for assistive technology; the fields show an icon and a placeholder. #}
+{% set username_container_class_list = ['form-group', 'dsbi-field', 'dsbi-field--user'] %}
+{% set username_label_class_list = ['sr-only'] %}
+{% set username_input_container_class_list = ['dsbi-field__control'] %}
+{% set password_container_class_list = ['form-group', 'dsbi-field', 'dsbi-field--password'] %}
+{% set password_label_class_list = ['sr-only'] %}
+{% set password_input_container_class_list = ['dsbi-field__control'] %}
+{% set language_container_class_list = ['form-group', 'dsbi-field', 'dsbi-field--language'] %}
+{% set language_label_class_list = ['sr-only'] %}
+{% set facilities_container_class_list = ['form-group', 'dsbi-field', 'dsbi-field--facility'] %}
+{% set facilities_label_class_list = ['sr-only'] %}
+{% set facilities_select_container_class_list = ['dsbi-field__control'] %}
+{% set button_container_class_list = ['form-group', 'd-flex', 'flex-column', 'dsbi-login__actions'] %}
+{% set logo_container_class_list = ['dsbi-login__logo'] %}
+{% set primary_logo_container_class_list = [] %}
+{% set tagline_p_class_list = ['dsbi-login__tagline'] %}
+{% set acknowledgements_p_class_list = ['dsbi-login__legal'] %}
+
+<div class="dsbi-login">
+<div class="dsbi-login__card">
+    <section class="dsbi-login__hero" aria-labelledby="dsbi-login-headline">
+        {% if displayPrimaryLogo %}
+        <img src="{{ primaryLogo|attr }}" class="dsbi-login__brand-logo" alt="{{ title|attr }}">
+        {% else %}
+        <p class="dsbi-login__brand">{{ title|text }}</p>
+        {% endif %}
+        <h1 class="dsbi-login__headline" id="dsbi-login-headline">{{ "Historias clínicas que conectan personas y mejoran la atención"|xlt }}</h1>
+        <p class="dsbi-login__lead">{{ "Software libre para una gestión de salud más simple, segura y eficiente."|xlt }}</p>
+        <ul class="dsbi-login__features">
+            <li>
+                <span class="dsbi-login__feature-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
+                <span>
+                    <strong>{{ "Pacientes en el centro"|xlt }}</strong>
+                    <span>{{ "Mejor continuidad de la atención"|xlt }}</span>
+                </span>
+            </li>
+            <li>
+                <span class="dsbi-login__feature-icon"><i class="fa fa-chart-column" aria-hidden="true"></i></span>
+                <span>
+                    <strong>{{ "Gestión integral"|xlt }}</strong>
+                    <span>{{ "Clínica, administrativa y financiera"|xlt }}</span>
+                </span>
+            </li>
+            <li>
+                <span class="dsbi-login__feature-icon"><i class="fa fa-shield-halved" aria-hidden="true"></i></span>
+                <span>
+                    <strong>{{ "Seguro y confiable"|xlt }}</strong>
+                    <span>{{ "Código abierto, estándares internacionales"|xlt }}</span>
+                </span>
+            </li>
+            <li>
+                <span class="dsbi-login__feature-icon"><i class="fa fa-gear" aria-hidden="true"></i></span>
+                <span>
+                    <strong>{{ "Adaptable a tu institución"|xlt }}</strong>
+                    <span>{{ "Flexible y escalable"|xlt }}</span>
+                </span>
+            </li>
+        </ul>
+    </section>
+    <div class="dsbi-login__panel" role="main">
+        <div class="dsbi-login__form">
+            {% include "login/partials/html/primary_logo.html.twig" %}
+            {% include "login/partials/html/login_details.html.twig" %}
+            {% include "login/partials/html/acknowledgements.html.twig" %}
+            {{ divApp }}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

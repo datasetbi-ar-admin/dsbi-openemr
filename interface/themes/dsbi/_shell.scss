@@ -1,0 +1,377 @@
+/**
+ * DSBI theme - application shell (interface/main/tabs/main.php).
+ *
+ * Restyles the existing header, main menu, patient bar and tab strip without
+ * touching their markup. tabs_style_*.css loads after the main theme, so every
+ * rule is anchored on #mainBox to outrank it.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+@if $compact-theme == false {
+  /* Fit the viewport: main.php sizes html/body to max-content, which lets a
+     long menu or many open tabs push the whole application sideways. */
+  html:has(#mainBox),
+  body:has(> #mainBox) {
+    max-width: 100vw;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  #mainBox > .navbar,
+  #mainBox .appMenu {
+    flex-wrap: wrap;
+  }
+
+  // Side-by-side tabs share the width instead of each claiming its own.
+  #mainBox #framesDisplay > div {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* Header */
+  #mainBox > .navbar {
+    background-color: $dsbi-navy !important;
+    box-shadow: $dsbi-shadow-sm;
+    min-height: $dsbi-shell-header-height;
+    padding-left: $dsbi-space-3;
+    padding-right: $dsbi-space-3;
+    z-index: 1030;
+
+    .navbar-brand {
+      align-items: center;
+      display: inline-flex;
+      margin-right: $dsbi-space-3;
+      padding: 0;
+
+      img {
+        height: 1.375rem;
+      }
+    }
+
+    .navbar-toggler {
+      border-color: $dsbi-border-on-navy;
+      padding: $dsbi-space-1 $dsbi-space-2;
+    }
+
+    .navbar-toggler-icon {
+      filter: invert(1) brightness(2);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    [role="button"]:focus-visible {
+      box-shadow: $dsbi-focus-ring-on-navy;
+    }
+  }
+
+  /* Main menu: top level sits on navy, flyouts are white surfaces */
+  #mainBox .appMenu {
+    align-items: center;
+    gap: 2px;
+
+    > div > .menuLabel,
+    > div > .menuSection > .menuLabel,
+    > .menuLabel {
+      border-radius: $dsbi-radius;
+      color: $dsbi-text-on-navy;
+      font-size: $dsbi-font-size-base;
+      font-weight: $dsbi-font-weight-medium;
+      padding: $dsbi-space-2 0.625rem !important;
+      transition: background-color $dsbi-transition, color $dsbi-transition;
+
+      &:hover {
+        background-color: $dsbi-navy-raised;
+        color: $dsbi-surface;
+      }
+
+      &.menuDisabled {
+        color: $dsbi-border-on-navy !important;
+      }
+    }
+
+    // An open menu keeps its heading lit in the same color as the selected entry.
+    > div > .menuSection:hover > .menuLabel,
+    > div > .menuSection > .menuLabel[aria-expanded="true"] {
+      background-color: $dsbi-primary;
+      color: $dsbi-surface;
+    }
+  }
+
+  #mainBox .menuSection:hover {
+    background-color: transparent;
+  }
+
+  #mainBox .menuSection > .menuEntries {
+    background-color: $dsbi-surface;
+    border: 1px solid $dsbi-border !important;
+    border-radius: $dsbi-radius-lg !important;
+    box-shadow: $dsbi-shadow !important;
+    min-width: 13rem;
+    padding: $dsbi-space-1;
+    top: 100%;
+
+    .menuEntries {
+      top: -#{$dsbi-space-1};
+    }
+  }
+
+  #mainBox .menuEntries li .menuLabel {
+    border-radius: $dsbi-radius-sm;
+    color: $dsbi-text;
+    font-size: $dsbi-font-size-base;
+    font-weight: $dsbi-font-weight-regular;
+    padding: 0.4375rem $dsbi-space-3 !important;
+
+    &.menuDisabled {
+      color: $dsbi-text-muted !important;
+    }
+  }
+
+  // Selected entry: solid fill across the whole row, and it stays lit on the
+  // parent entries while a nested flyout is open.
+  #mainBox .menuEntries li:hover > .menuLabel:not(.menuDisabled),
+  #mainBox .menuEntries li:hover > .menuSection > .menuLabel:not(.menuDisabled) {
+    background-color: $dsbi-primary;
+    color: $dsbi-surface;
+  }
+
+  #mainBox .menuEntries li {
+    position: relative;
+
+    > .closeButton {
+      color: $dsbi-text-muted-strong;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    &:hover > .closeButton {
+      color: $dsbi-surface;
+    }
+  }
+
+  /* Global patient search */
+  #mainBox > .navbar form[name="frm_search_globals"] {
+    margin-left: $dsbi-space-3;
+
+    .form-control {
+      background-color: $dsbi-navy-raised;
+      border-color: $dsbi-border-on-navy;
+      border-right: 0;
+      color: $dsbi-surface;
+      min-width: 16rem;
+
+      &::placeholder {
+        color: $dsbi-text-on-navy-muted;
+      }
+
+      &:focus {
+        background-color: $dsbi-surface;
+        border-color: $dsbi-surface;
+        color: $dsbi-text;
+
+        &::placeholder {
+          color: $dsbi-text-muted;
+        }
+      }
+    }
+
+    // theme-defaults paints #search_globals with !important.
+    .btn {
+      background: $dsbi-navy-raised !important;
+      border-color: $dsbi-border-on-navy;
+      color: $dsbi-text-on-navy;
+
+      &:hover {
+        background: $dsbi-primary !important;
+        border-color: $dsbi-primary;
+        color: $dsbi-surface;
+      }
+    }
+  }
+
+  /* User menu */
+  #mainBox #username {
+    border-radius: 10rem;
+    padding: $dsbi-space-1 !important;
+
+    .text-muted {
+      color: $dsbi-text-on-navy !important;
+    }
+
+    &:hover .text-muted {
+      color: $dsbi-surface !important;
+    }
+  }
+
+  #mainBox #userdropdown {
+    border: 1px solid $dsbi-border !important;
+    border-radius: $dsbi-radius-lg !important;
+    box-shadow: $dsbi-shadow !important;
+    padding: $dsbi-space-1;
+
+    > .menuLabel {
+      border-bottom: 1px solid $dsbi-border;
+      color: $dsbi-text;
+      margin-bottom: $dsbi-space-1;
+      padding: $dsbi-space-2 $dsbi-space-3 !important;
+
+      &:hover {
+        background-color: transparent;
+        color: $dsbi-text;
+      }
+    }
+  }
+
+  /* Active patient / encounter context */
+  #mainBox #attendantData {
+    background-color: $dsbi-surface;
+    border-bottom: 1px solid $dsbi-border;
+    color: $dsbi-text;
+    padding: 0;
+
+    .patientInfo a,
+    .patientCurrentEncounter a {
+      color: $dsbi-text !important;
+    }
+
+    // Padding only when a patient is loaded, so the bar stays slim otherwise.
+    &:has(.ptName) {
+      padding: $dsbi-space-2 0 $dsbi-space-1;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    // Inline-flex leaves an empty line box behind when no patient is loaded;
+    // as a block-level flex row the bar collapses to nothing.
+    @media (min-width: 992px) {
+      > .d-lg-inline-flex {
+        display: flex !important;
+      }
+    }
+
+    .ptName {
+      font-weight: $dsbi-font-weight-semibold;
+    }
+  }
+
+  #mainBox .patientEncounterList {
+    border: 1px solid $dsbi-border;
+    border-radius: $dsbi-radius-lg;
+    box-shadow: $dsbi-shadow;
+  }
+
+  /* Tab strip */
+  #mainBox #tabs_div {
+    background-color: $dsbi-surface-sunken;
+    padding-top: $dsbi-space-1 !important;
+  }
+
+  #mainBox .tabControls {
+    align-items: flex-end;
+    gap: 2px;
+    padding: 0 $dsbi-space-2;
+    scrollbar-width: thin;
+  }
+
+  // Tabs squeeze like browser tabs before the strip ever needs to scroll.
+  #mainBox .tabSpan {
+    flex: 0 1 auto;
+    min-width: 7rem;
+
+    .tabTitle {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  // The trailing spacer only takes what the tabs leave free.
+  #mainBox .tabControls > .tabsNoHover.w-100 {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 0 !important;
+  }
+
+  #mainBox .tabSpan {
+    align-items: center;
+    background-color: $dsbi-surface;
+    border: 1px solid $dsbi-border-strong;
+    border-bottom: 0;
+    border-radius: $dsbi-radius $dsbi-radius 0 0;
+    // The top rule marks the active tab together with weight and fill, not color alone.
+    box-shadow: inset 0 2px 0 $dsbi-primary;
+    color: $dsbi-text;
+    display: flex;
+    font-size: $dsbi-font-size-sm;
+    font-weight: $dsbi-font-weight-semibold;
+    gap: 2px;
+    padding: 0.3125rem $dsbi-space-1 0.3125rem $dsbi-space-3;
+    transition: background-color $dsbi-transition, color $dsbi-transition;
+
+    .tabTitle {
+      max-width: 16rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fa {
+      align-items: center;
+      border-radius: $dsbi-radius-sm;
+      color: $dsbi-text-muted;
+      display: inline-flex;
+      height: $dsbi-target-min;
+      justify-content: center;
+      margin-right: 0 !important;
+      width: $dsbi-target-min;
+
+      &:hover {
+        background-color: $dsbi-gray-200;
+        color: $dsbi-text;
+      }
+
+      &.fa-times:hover {
+        background-color: $dsbi-danger-soft;
+        color: $dsbi-danger-strong;
+      }
+    }
+  }
+
+  #mainBox .tabSpan.tabsNoHover {
+    background-color: transparent !important;
+    border-color: transparent;
+    box-shadow: none;
+    color: $dsbi-text-muted-strong;
+    font-weight: $dsbi-font-weight-medium;
+
+    &:hover {
+      background-color: $dsbi-border-strong !important;
+      color: $dsbi-text;
+    }
+
+    .tabHidden {
+      color: inherit;
+    }
+  }
+
+  // Spacers around the tabs; they only carried the old blue baseline.
+  #mainBox .tabControls > .tabsNoHover:not(.tabSpan) {
+    border: 0;
+  }
+
+  #mainBox #patient_caret {
+    color: $dsbi-text-muted-strong;
+    cursor: pointer;
+    font-size: $dsbi-font-size-md;
+    margin: 0 $dsbi-space-2 $dsbi-space-2;
+  }
+
+  #mainBox .mainFrames {
+    border-top: 1px solid $dsbi-border-strong;
+  }
+}

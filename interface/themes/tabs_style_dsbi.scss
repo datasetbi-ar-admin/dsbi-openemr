@@ -1,0 +1,475 @@
+/**
+ * DSBI tabs layout: main menu in a collapsible sidebar, slim header on top.
+ *
+ * Selectable from Administration > Config > Appearance > Tabs Layout Theme as
+ * "Dsbi". It starts from the stock full layout and only rearranges the shell:
+ * the menu markup, its entries and their permissions are untouched.
+ * Collapsing and the accordion are driven by interface/main/tabs/js/dsbi_sidebar.js.
+ *
+ * Rules are prefixed with html so they outrank the #mainBox rules that the
+ * DSBI main theme (dsbi/_shell.scss) writes for the horizontal menu.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+@import "tabs_style_full";
+@import "dsbi/tokens";
+
+$sidebar-width: 15.5rem;
+$sidebar-rail-width: 4rem;
+$sidebar-item-height: 2.5rem;
+
+// Product name shown next to the logo mark at the top of the sidebar.
+$dsbi-brand-name: "OpenEMR" !default;
+
+// Font Awesome 6 solid glyph per top-level entry, keyed by the menu_id (and,
+// where two entries share an id, the tab target) from the menu JSON.
+$menu-icons: (
+  "cal0": "\f073",
+  "fin0": "\f002",
+  "pfb0": "\f0db",
+  "msg0": "\f0e0",
+  "patimg": "\f007",
+  "groupimg": "\f0c0",
+  "feeimg": "\f155",
+  "modimg": "\f12e",
+  "invimg": "\f466",
+  "proimg": "\f492",
+  "admimg": "\f013",
+  "repimg": "\f080",
+  "misimg": "\f141",
+  "popup": "\f2d2"
+);
+
+// Read by dsbi_sidebar.js to know this layout is active.
+:root {
+  --dsbi-shell: sidebar;
+  --dsbi-sidebar-width: #{$sidebar-width};
+}
+
+@mixin sidebar-rail {
+  --dsbi-sidebar-width: #{$sidebar-rail-width};
+
+  > .navbar .navbar-brand {
+    justify-content: center !important;
+    padding: 0 !important;
+
+    &::after {
+      display: none !important;
+    }
+  }
+
+  .appMenu > div > .menuLabel,
+  .appMenu > div > .menuSection > .menuLabel {
+    font-size: 0 !important;
+    gap: 0;
+    justify-content: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    &::after {
+      display: none !important;
+    }
+  }
+
+  .menuSection > .menuEntries {
+    display: none !important;
+  }
+
+  .dsbi-sidebar-toggle {
+    justify-content: center;
+
+    span {
+      display: none;
+    }
+
+    .fa {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+html #mainBox {
+  display: grid;
+  grid-template-columns: var(--dsbi-sidebar-width) minmax(0, 1fr) auto;
+  grid-template-rows: $dsbi-shell-header-height auto auto minmax(0, 1fr) auto;
+  height: 100vh;
+  transition: grid-template-columns 0.18s ease;
+
+  // The navbar dissolves so its children can be placed on the shell grid:
+  // brand and menu in the sidebar, search and user in the header.
+  > .navbar {
+    display: contents;
+  }
+
+  // Header surface behind the search and user cells.
+  &::before {
+    background-color: $dsbi-surface;
+    border-bottom: 1px solid $dsbi-border;
+    content: "";
+    grid-column: 2 / -1;
+    grid-row: 1;
+  }
+
+  > #attendantData,
+  > #tabs_div {
+    grid-column: 2 / -1;
+  }
+
+  > #attendantData {
+    grid-row: 2;
+  }
+
+  > #tabs_div {
+    grid-row: 3;
+  }
+
+  > .mainFrames {
+    grid-column: 2 / -1;
+    grid-row: 4 / -1;
+    min-height: 0;
+  }
+
+  &.dsbi-rail {
+    @include sidebar-rail;
+  }
+
+  @media (max-width: 61.99rem) {
+    @include sidebar-rail;
+  }
+}
+
+/* Sidebar */
+html #mainBox .navbar-brand,
+html #mainBox #mainMenu,
+html #mainBox .dsbi-sidebar-toggle {
+  background-color: $dsbi-sidebar-bg;
+  grid-column: 1;
+}
+
+// "> .navbar" matches the weight of the brand rule in dsbi/_shell.scss, whose
+// margin and padding would otherwise leave this cell narrower than the sidebar.
+html #mainBox > .navbar .navbar-brand {
+  align-items: center;
+  color: $dsbi-surface;
+  display: flex;
+  font-size: $dsbi-font-size-lg;
+  font-weight: $dsbi-font-weight-bold;
+  gap: $dsbi-space-3;
+  grid-row: 1;
+  letter-spacing: $dsbi-tracking-tight;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 $dsbi-space-4;
+  text-decoration: none;
+  white-space: nowrap;
+
+  // The stock menu logo is a dark mark; it sits on a light tile so it reads
+  // on the navy surface whatever file a site configures.
+  img {
+    background-color: $dsbi-surface;
+    border-radius: $dsbi-radius-lg;
+    box-shadow: 0 4px 12px rgba($dsbi-primary, 0.35);
+    flex: 0 0 auto;
+    height: 2.25rem !important;
+    padding: 0.375rem;
+    width: 2.25rem;
+  }
+
+  &::after {
+    content: $dsbi-brand-name;
+  }
+}
+
+html #mainBox .navbar-toggler {
+  display: none;
+}
+
+html #mainBox #mainMenu {
+  display: block !important;
+  grid-row: 2 / 5;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: $dsbi-space-2;
+  scrollbar-width: thin;
+}
+
+html #mainBox .appMenu {
+  align-items: stretch;
+  flex-direction: column !important;
+  flex-wrap: nowrap;
+  gap: 2px;
+  margin: 0;
+}
+
+// Top-level entries
+html #mainBox .appMenu > div > .menuLabel,
+html #mainBox .appMenu > div > .menuSection > .menuLabel {
+  align-items: center;
+  border-radius: $dsbi-radius-lg;
+  color: $dsbi-text-on-navy;
+  display: flex;
+  font-size: $dsbi-font-size-base;
+  font-weight: $dsbi-font-weight-medium;
+  gap: $dsbi-space-3;
+  min-height: $sidebar-item-height;
+  padding: 0 $dsbi-space-3 !important;
+  white-space: nowrap;
+
+  &::before {
+    color: $dsbi-sidebar-icon;
+    content: "\f15b";
+    flex: 0 0 1.25rem;
+    font-family: "Font Awesome 6 Free";
+    font-size: $dsbi-font-size-md;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  // Only entries with a submenu carry a chevron (Bootstrap's caret, restyled).
+  &::after {
+    display: none;
+  }
+
+  &.dropdown-toggle::after {
+    border: 0;
+    color: $dsbi-text-on-navy-muted;
+    content: "\f078" !important; // theme-defaults blanks this caret with !important
+    display: inline-block !important;
+    font-family: "Font Awesome 6 Free";
+    font-size: 0.7rem;
+    font-weight: 900;
+    margin-left: auto;
+    transition: transform 0.15s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: $dsbi-sidebar-bg-raised;
+    color: $dsbi-surface;
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px $dsbi-sidebar-icon;
+  }
+
+  &.menuDisabled {
+    color: $dsbi-border-on-navy !important;
+  }
+}
+
+html #mainBox .appMenu > div > .menuSection:hover > .menuLabel {
+  background-color: $dsbi-sidebar-bg-raised;
+  color: $dsbi-surface;
+}
+
+@each $id, $glyph in $menu-icons {
+  html #mainBox .appMenu > div[data-menu-id="#{$id}"] > .menuLabel::before,
+  html #mainBox .appMenu > div[data-menu-id="#{$id}"] > .menuSection > .menuLabel::before {
+    content: $glyph;
+  }
+}
+
+html #mainBox .appMenu > div[data-menu-target="rcb"] > .menuLabel::before {
+  content: "\f1da";
+}
+
+// Submenus open in place, as an accordion, instead of flying out.
+html #mainBox .menuSection > .menuEntries,
+html #mainBox .menuSection:hover > .menuEntries {
+  background-color: transparent;
+  border: 0 !important;
+  border-left: 1px solid $dsbi-sidebar-line !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: none;
+  float: none;
+  margin: 2px 0 $dsbi-space-1 1.3125rem;
+  min-width: 0;
+  padding: 0 0 0 $dsbi-space-2;
+  position: static !important;
+  transform: none !important;
+  white-space: normal;
+  width: auto;
+}
+
+// .show covers the stock Bootstrap toggle if the sidebar script is unavailable.
+html #mainBox .menuSection.dsbi-open > .menuEntries,
+html #mainBox .menuSection > .menuEntries.show {
+  display: block;
+}
+
+// The first selector outranks the solid highlight the main theme gives an
+// expanded heading in the horizontal menu.
+html #mainBox .appMenu > div > .menuSection > .menuLabel[aria-expanded="true"],
+html #mainBox .menuSection.dsbi-open > .menuLabel {
+  background: $dsbi-gradient-active;
+  box-shadow: 0 6px 16px rgba($dsbi-primary, 0.35);
+  color: $dsbi-surface;
+  font-weight: $dsbi-font-weight-semibold;
+
+  &::before,
+  &.dropdown-toggle::after {
+    color: $dsbi-surface;
+  }
+
+  &::after {
+    transform: rotate(180deg);
+  }
+}
+
+html #mainBox .menuEntries li {
+  // The flyout arrow of the horizontal menu has no role here.
+  > .closeButton {
+    display: none;
+  }
+
+  .menuLabel {
+    border-radius: $dsbi-radius;
+    color: $dsbi-text-on-navy;
+    font-size: $dsbi-font-size-sm;
+    line-height: 1.3;
+    padding: $dsbi-space-2 $dsbi-space-2 !important;
+    white-space: normal;
+  }
+
+  .menuLabel.dropdown-toggle {
+    align-items: center;
+    display: flex;
+
+    &::after {
+      border: 0;
+      content: "\f078" !important; // theme-defaults blanks this caret with !important
+      display: inline-block !important;
+      font-family: "Font Awesome 6 Free";
+      font-size: 0.65rem;
+      font-weight: 900;
+      margin-left: auto;
+    }
+  }
+}
+
+html #mainBox .menuEntries li:hover > .menuLabel:not(.menuDisabled),
+html #mainBox .menuEntries li:hover > .menuSection > .menuLabel:not(.menuDisabled) {
+  background-color: $dsbi-sidebar-bg-raised;
+  color: $dsbi-surface;
+}
+
+html #mainBox .menuEntries li .menuLabel.menuDisabled {
+  color: $dsbi-border-on-navy !important;
+}
+
+// A nested open branch is marked by weight and a sky rule, not a second pill.
+html #mainBox .menuEntries .menuSection.dsbi-open > .menuLabel {
+  background: $dsbi-sidebar-bg-raised;
+  box-shadow: inset 2px 0 0 $dsbi-sidebar-icon;
+}
+
+html #mainBox .dsbi-sidebar-toggle {
+  align-items: center;
+  border: 0;
+  border-top: 1px solid $dsbi-sidebar-line;
+  color: $dsbi-text-on-navy-muted;
+  cursor: pointer;
+  display: flex;
+  font-size: $dsbi-font-size-sm;
+  font-weight: $dsbi-font-weight-medium;
+  gap: $dsbi-space-3;
+  grid-row: 5;
+  min-height: 2.75rem;
+  padding: 0 $dsbi-space-4;
+  text-align: left;
+
+  &:hover {
+    background-color: $dsbi-navy;
+    color: $dsbi-surface;
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px $dsbi-sidebar-icon;
+    outline: 0;
+  }
+
+  .fa {
+    flex: 0 0 1.25rem;
+    text-align: center;
+    transition: transform 0.18s ease;
+  }
+}
+
+/* Header */
+html #mainBox > .navbar form[name="frm_search_globals"] {
+  align-self: center;
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0 $dsbi-space-4;
+  max-width: 34rem;
+
+  .input-group {
+    width: 100%;
+  }
+
+  .form-control {
+    background-color: $dsbi-surface-muted;
+    border-color: $dsbi-border-control;
+    color: $dsbi-text;
+    flex: 1 1 auto;
+    height: 2.25rem;
+    min-width: 0;
+    width: 1%;
+
+    &::placeholder {
+      color: $dsbi-text-muted;
+    }
+
+    &:focus {
+      background-color: $dsbi-surface;
+      border-color: $dsbi-primary;
+    }
+  }
+
+  .btn {
+    background: $dsbi-surface-muted !important;
+    border-color: $dsbi-border-control;
+    color: $dsbi-text-muted-strong;
+    height: 2.25rem;
+
+    &:hover {
+      background: $dsbi-primary !important;
+      border-color: $dsbi-primary;
+      color: $dsbi-surface;
+    }
+  }
+}
+
+html #mainBox #userData {
+  align-self: center;
+  float: none;
+  grid-column: 3;
+  grid-row: 1;
+  padding-right: $dsbi-space-3;
+
+  #username .text-muted {
+    color: $dsbi-text-muted-strong !important;
+  }
+
+  #username:hover .text-muted {
+    color: $dsbi-primary !important;
+  }
+
+  #username::after {
+    color: $dsbi-text-muted-strong;
+  }
+}
+
+// Anything a module adds to the navbar lands in the header, before the user menu.
+html #mainBox > .navbar > *:not(.navbar-brand):not(.navbar-toggler):not(#mainMenu):not(form):not(#userData):not(.dsbi-sidebar-toggle) {
+  align-self: center;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}

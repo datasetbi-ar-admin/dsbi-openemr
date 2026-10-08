@@ -25,6 +25,6 @@
 </script>
 <script type="text/html" id="menu-template">
     <div class='appMenu navbar-nav mr-auto' data-bind="foreach: menu">
-        <div data-bind="template: {name:header ? 'menu-header' : 'menu-action', data: $data }"></div>
+        <div data-bind="template: {name:header ? 'menu-header' : 'menu-action', data: $data }, attr: {'data-menu-id': $data.menu_id, 'data-menu-target': $data.target}"></div>
     </div>
 </script>

@@ -1,0 +1,186 @@
+/**
+ * DSBI theme - maps the design tokens onto Bootstrap 4 variables.
+ *
+ * Imported before default-variables and Bootstrap so components are generated
+ * with the DSBI look instead of being overridden afterwards.
+ *
+ * Sizing variables carry !default so the compact variant, which prepends
+ * compact-theme-defaults, keeps its own tighter values.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+// Palette
+$white: $dsbi-surface;
+$black: $dsbi-text;
+$gray-100: $dsbi-gray-100;
+$gray-200: $dsbi-gray-200;
+$gray-300: $dsbi-gray-300;
+$gray-400: $dsbi-gray-400;
+$gray-500: $dsbi-gray-500;
+$gray-600: $dsbi-gray-600;
+$gray-700: $dsbi-gray-700;
+$gray-800: $dsbi-gray-800;
+$gray-900: $dsbi-gray-900;
+
+$blue: $dsbi-primary;
+$green: $dsbi-success-strong;
+$red: $dsbi-danger;
+$yellow: $dsbi-warning;
+$cyan: $dsbi-info;
+
+// OpenEMR uses bg-light as its generic surface, so it has to stay white.
+$light: $dsbi-surface;
+$dark: $dsbi-navy;
+$gray: $dsbi-gray-500;
+$ovr-dark: $dsbi-navy;
+$ovr-light: $dsbi-surface;
+$secondary-color: $dsbi-gray-100;
+
+$body-bg: $dsbi-bg;
+$body-color: $dsbi-text;
+$text-muted: $dsbi-text-muted;
+$link-color: $dsbi-primary-hover;
+$link-hover-color: $dsbi-primary-active;
+$border-color: $dsbi-border;
+$hr-border-color: $dsbi-border;
+$component-active-bg: $dsbi-primary;
+
+// Warning fills are too light for white text and too dark for Bootstrap's
+// default threshold to pick the dark one; 135 flips only that case.
+$yiq-contrasted-threshold: 135;
+$yiq-text-dark: $dsbi-text;
+$yiq-text-light: $dsbi-surface;
+
+// Typography
+$font-family-sans-serif: $dsbi-font-family;
+$line-height-base: $dsbi-line-height;
+$headings-font-weight: $dsbi-font-weight-bold;
+$headings-line-height: $dsbi-line-height-tight;
+$headings-color: $dsbi-text;
+$h1-font-size: $dsbi-font-size-2xl;
+$h2-font-size: $dsbi-font-size-xl;
+$h3-font-size: 1.25rem;
+$h4-font-size: $dsbi-font-size-lg;
+$h5-font-size: $dsbi-font-size-md;
+$h6-font-size: $dsbi-font-size-base;
+$small-font-size: $dsbi-font-size-xs;
+
+// Shape
+$border-radius: $dsbi-radius;
+$border-radius-sm: $dsbi-radius-sm;
+$border-radius-lg: $dsbi-radius-lg;
+
+// Buttons and inputs
+$input-btn-padding-y: 0.375rem !default;
+$input-btn-padding-x: 0.75rem !default;
+$input-btn-padding-y-sm: 0.25rem !default;
+$input-btn-padding-x-sm: 0.5rem !default;
+$input-btn-focus-width: 0.1875rem;
+$input-btn-focus-color: rgba($dsbi-primary, 0.3);
+$btn-font-weight: $dsbi-font-weight-semibold;
+$btn-disabled-opacity: 0.55;
+$btn-transition: color $dsbi-transition, background-color $dsbi-transition, border-color $dsbi-transition, box-shadow $dsbi-transition;
+
+$input-bg: $dsbi-surface;
+$input-color: $dsbi-text;
+$input-border-color: $dsbi-border-control;
+$input-focus-border-color: $dsbi-primary;
+$input-placeholder-color: $dsbi-text-muted;
+$input-disabled-bg: $dsbi-gray-100;
+$input-group-addon-bg: $dsbi-surface-muted;
+$input-group-addon-color: $dsbi-text-muted-strong;
+$input-group-addon-border-color: $dsbi-border-control;
+$custom-select-border-color: $dsbi-border-control;
+$custom-control-indicator-border-color: $dsbi-border-control;
+$custom-control-indicator-checked-bg: $dsbi-primary;
+$label-margin-bottom: 0.25rem !default;
+
+$input-border-radius: $dsbi-radius-lg;
+$input-border-radius-sm: $dsbi-radius;
+$custom-select-border-radius: $dsbi-radius-lg;
+$jumbotron-bg: $dsbi-surface;
+
+// Tables
+$table-cell-padding: 0.5rem 0.75rem !default;
+$table-cell-padding-sm: 0.3125rem 0.5rem !default;
+$table-color: $dsbi-text;
+$table-border-color: $dsbi-border;
+$table-accent-bg: $dsbi-surface-muted;
+$table-hover-bg: $dsbi-primary-soft;
+$table-head-bg: $dsbi-surface-muted;
+$table-head-color: $dsbi-text-muted-strong;
+
+// Cards
+$card-border-color: $dsbi-border;
+$card-border-radius: $dsbi-radius-lg;
+$card-cap-bg: $dsbi-surface;
+$card-bg: $dsbi-surface;
+
+// Navs, pagination, breadcrumbs
+$nav-tabs-border-color: $dsbi-border;
+$nav-tabs-link-hover-border-color: transparent;
+$nav-tabs-link-active-color: $dsbi-primary-hover;
+$nav-tabs-link-active-bg: $dsbi-surface;
+$nav-tabs-link-active-border-color: $dsbi-border $dsbi-border $dsbi-surface;
+$nav-pills-link-active-bg: $dsbi-primary;
+$pagination-color: $dsbi-text;
+$pagination-bg: $dsbi-surface;
+$pagination-border-color: $dsbi-border-strong;
+$pagination-hover-color: $dsbi-primary-hover;
+$pagination-hover-bg: $dsbi-primary-soft;
+$pagination-hover-border-color: $dsbi-border-strong;
+$pagination-active-bg: $dsbi-primary;
+$pagination-active-border-color: $dsbi-primary;
+$pagination-disabled-color: $dsbi-text-muted;
+$pagination-disabled-border-color: $dsbi-border;
+$breadcrumb-bg: transparent;
+$breadcrumb-padding-x: 0;
+$breadcrumb-padding-y: $dsbi-space-2;
+$breadcrumb-divider-color: $dsbi-text-muted;
+$breadcrumb-active-color: $dsbi-text;
+
+// Overlays
+$dropdown-border-color: $dsbi-border;
+$dropdown-border-radius: $dsbi-radius-lg;
+$dropdown-link-color: $dsbi-text;
+$dropdown-link-hover-color: $dsbi-primary-active;
+$dropdown-link-hover-bg: $dsbi-primary-soft;
+$dropdown-link-active-bg: $dsbi-primary;
+$dropdown-divider-bg: $dsbi-border;
+$dropdown-header-color: $dsbi-text-muted;
+$modal-content-border-color: $dsbi-border;
+$modal-content-border-radius: $dsbi-radius-xl;
+$modal-header-border-color: $dsbi-border;
+$modal-footer-border-color: $dsbi-border;
+$modal-backdrop-bg: $dsbi-navy;
+$modal-backdrop-opacity: 0.55;
+$tooltip-bg: $dsbi-navy;
+$tooltip-opacity: 1;
+$tooltip-font-size: $dsbi-font-size-xs;
+$tooltip-border-radius: $dsbi-radius-sm;
+$popover-border-color: $dsbi-border;
+$popover-border-radius: $dsbi-radius-lg;
+
+// Status components
+$badge-font-weight: $dsbi-font-weight-semibold;
+$badge-border-radius: 10rem;
+$badge-padding-y: 0.25em;
+$badge-padding-x: 0.7em;
+$alert-border-radius: $dsbi-radius-lg;
+$alert-padding-y: $dsbi-space-3;
+$alert-padding-x: $dsbi-space-4;
+$close-color: $dsbi-text;
+$close-text-shadow: none;
+$list-group-border-color: $dsbi-border;
+$list-group-hover-bg: $dsbi-primary-soft;
+$progress-bg: $dsbi-gray-200;
+$progress-border-radius: 10rem;
+
+// Consumed by OpenEMR's own login partial
+$login-text-color: $dsbi-text;
+$btn-link-disabled-color: $dsbi-gray-400;
