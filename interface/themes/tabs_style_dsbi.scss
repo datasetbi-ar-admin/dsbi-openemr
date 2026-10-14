@@ -42,7 +42,8 @@ $menu-icons: (
   "admimg": "\f013",
   "repimg": "\f080",
   "misimg": "\f141",
-  "popup": "\f2d2"
+  "popup": "\f2d2",
+  "dsbidash": "\f625"
 );
 
 // Read by dsbi_sidebar.js to know this layout is active.
@@ -51,7 +52,8 @@ $menu-icons: (
   --dsbi-sidebar-width: #{$sidebar-width};
 }
 
-@mixin sidebar-rail {
+// Narrow column: only the logo mark stays in the brand cell.
+@mixin sidebar-rail-brand {
   --dsbi-sidebar-width: #{$sidebar-rail-width};
 
   > .navbar .navbar-brand {
@@ -62,7 +64,10 @@ $menu-icons: (
       display: none !important;
     }
   }
+}
 
+// Icons only: labels and submenus are hidden until the menu expands again.
+@mixin sidebar-rail-menu {
   .appMenu > div > .menuLabel,
   .appMenu > div > .menuSection > .menuLabel {
     font-size: 0 !important;
@@ -71,7 +76,8 @@ $menu-icons: (
     padding-left: 0 !important;
     padding-right: 0 !important;
 
-    &::after {
+    &::after,
+    &.dropdown-toggle::after {
       display: none !important;
     }
   }
@@ -79,24 +85,13 @@ $menu-icons: (
   .menuSection > .menuEntries {
     display: none !important;
   }
-
-  .dsbi-sidebar-toggle {
-    justify-content: center;
-
-    span {
-      display: none;
-    }
-
-    .fa {
-      transform: rotate(180deg);
-    }
-  }
 }
 
 html #mainBox {
   display: grid;
-  grid-template-columns: var(--dsbi-sidebar-width) minmax(0, 1fr) auto;
-  grid-template-rows: $dsbi-shell-header-height auto auto minmax(0, 1fr) auto;
+  // sidebar | menu button | search | user
+  grid-template-columns: var(--dsbi-sidebar-width) auto minmax(0, 1fr) auto;
+  grid-template-rows: $dsbi-shell-header-height auto auto minmax(0, 1fr);
   height: 100vh;
   transition: grid-template-columns 0.18s ease;
 
@@ -135,18 +130,44 @@ html #mainBox {
   }
 
   &.dsbi-rail {
-    @include sidebar-rail;
+    @include sidebar-rail-brand;
+    @include sidebar-rail-menu;
   }
 
+  // Phones and small tablets: the rail is the resting state and the full menu
+  // opens over the content as a drawer (dsbi-drawer, set by dsbi_sidebar.js).
   @media (max-width: 61.99rem) {
-    @include sidebar-rail;
+    @include sidebar-rail-brand;
+
+    &:not(.dsbi-drawer) {
+      @include sidebar-rail-menu;
+    }
+
+    &.dsbi-drawer #mainMenu {
+      box-shadow: $dsbi-shadow-lg;
+      max-width: calc(100vw - #{$dsbi-space-6});
+      position: relative;
+      width: $sidebar-width;
+      z-index: 1040;
+    }
+
+    &.dsbi-drawer > .dsbi-sidebar-backdrop {
+      display: block;
+    }
   }
+}
+
+html #mainBox > .dsbi-sidebar-backdrop {
+  background-color: rgba($dsbi-navy, 0.45);
+  display: none;
+  grid-column: 2 / -1;
+  grid-row: 2 / -1;
+  z-index: 1030;
 }
 
 /* Sidebar */
 html #mainBox .navbar-brand,
-html #mainBox #mainMenu,
-html #mainBox .dsbi-sidebar-toggle {
+html #mainBox #mainMenu {
   background-color: $dsbi-sidebar-bg;
   grid-column: 1;
 }
@@ -191,7 +212,7 @@ html #mainBox .navbar-toggler {
 
 html #mainBox #mainMenu {
   display: block !important;
-  grid-row: 2 / 5;
+  grid-row: 2 / -1;
   overflow-x: hidden;
   overflow-y: auto;
   padding: $dsbi-space-2;
@@ -369,44 +390,43 @@ html #mainBox .menuEntries .menuSection.dsbi-open > .menuLabel {
   box-shadow: inset 2px 0 0 $dsbi-sidebar-icon;
 }
 
-html #mainBox .dsbi-sidebar-toggle {
+/* Header */
+// Expands and collapses the sidebar; first cell of the header, next to the search.
+html #mainBox > .navbar > .dsbi-sidebar-toggle {
   align-items: center;
+  align-self: center;
+  background: transparent;
   border: 0;
-  border-top: 1px solid $dsbi-sidebar-line;
-  color: $dsbi-text-on-navy-muted;
+  border-radius: $dsbi-radius-lg;
+  color: $dsbi-text-muted-strong;
   cursor: pointer;
   display: flex;
-  font-size: $dsbi-font-size-sm;
-  font-weight: $dsbi-font-weight-medium;
-  gap: $dsbi-space-3;
-  grid-row: 5;
-  min-height: 2.75rem;
-  padding: 0 $dsbi-space-4;
-  text-align: left;
+  font-size: $dsbi-font-size-md;
+  grid-column: 2;
+  grid-row: 1;
+  height: 2.5rem;
+  justify-content: center;
+  margin-left: $dsbi-space-2;
+  padding: 0;
+  width: 2.5rem;
 
   &:hover {
-    background-color: $dsbi-navy;
-    color: $dsbi-surface;
+    background-color: $dsbi-primary-soft;
+    color: $dsbi-primary;
   }
 
   &:focus-visible {
-    box-shadow: inset 0 0 0 2px $dsbi-sidebar-icon;
+    box-shadow: $dsbi-focus-ring;
     outline: 0;
-  }
-
-  .fa {
-    flex: 0 0 1.25rem;
-    text-align: center;
-    transition: transform 0.18s ease;
   }
 }
 
-/* Header */
 html #mainBox > .navbar form[name="frm_search_globals"] {
   align-self: center;
-  grid-column: 2;
+  grid-column: 3;
   grid-row: 1;
-  margin: 0 $dsbi-space-4;
+  margin: 0 $dsbi-space-3;
+  min-width: 0;
   max-width: 34rem;
 
   .input-group {
@@ -449,7 +469,7 @@ html #mainBox > .navbar form[name="frm_search_globals"] {
 html #mainBox #userData {
   align-self: center;
   float: none;
-  grid-column: 3;
+  grid-column: 4;
   grid-row: 1;
   padding-right: $dsbi-space-3;
 
@@ -469,7 +489,7 @@ html #mainBox #userData {
 // Anything a module adds to the navbar lands in the header, before the user menu.
 html #mainBox > .navbar > *:not(.navbar-brand):not(.navbar-toggler):not(#mainMenu):not(form):not(#userData):not(.dsbi-sidebar-toggle) {
   align-self: center;
-  grid-column: 2;
+  grid-column: 3;
   grid-row: 1;
   justify-self: end;
 }
