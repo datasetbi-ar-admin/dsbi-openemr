@@ -28,6 +28,18 @@
         ]
     },
     {
+        "label": "Booking Assistant",
+        "menu_id": "dsbitur",
+        "target": "dtu",
+        "url": "/interface/dsbi/turnos/index.php",
+        "children": [],
+        "requirement": 0,
+        "acl_req": [
+            "patients",
+            "appt"
+        ]
+    },
+    {
         "label": "Finder",
         "menu_id": "fin0",
         "target": "fin",
