@@ -263,6 +263,9 @@ assets:
     script:
     - chart.js/dist/chart.umd.js
     - chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.js
+  echarts:
+    basePath: '%assets_static_relative%/echarts/dist/'
+    script: echarts.min.js
   select2-translated:
     basePath: '%webroot%/library/js/xl/'
     script: select2-translated.js

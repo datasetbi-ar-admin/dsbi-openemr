@@ -1,0 +1,244 @@
+/**
+ * DSBI dashboards screen.
+ *
+ * Reads the --dsbi-* properties published by the DSBI general theme and falls
+ * back to the same token values, so the screen keeps its look under any theme.
+ *
+ * @package   OpenEMR
+ * @link      https://www.open-emr.org
+ * @author    DatasetBI
+ * @copyright Copyright (c) 2026 DatasetBI
+ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
+ */
+
+.dsbi-dash {
+  --dash-bg: var(--dsbi-bg, #f5f7fa);
+  --dash-surface: var(--dsbi-surface, #fff);
+  --dash-text: var(--dsbi-text, #172033);
+  --dash-muted: #526079;
+  --dash-border: var(--dsbi-border, #e2e8f0);
+  --dash-primary: var(--dsbi-primary, #2563eb);
+  --dash-primary-soft: var(--dsbi-primary-soft, #eff4ff);
+  --dash-navy: #0b1730;
+  --dash-success: var(--dsbi-success-strong, #15803d);
+  --dash-danger: var(--dsbi-danger-strong, #b91c1c);
+  --dash-radius: 0.875rem;
+  --dash-shadow: var(--dsbi-shadow-sm, 0 1px 2px rgba(20, 38, 61, 0.06));
+
+  background-color: var(--dash-bg);
+  color: var(--dash-text);
+  margin: 0;
+  /* The stock theme pads every body; the page sets its own gutters. */
+  padding: 0 !important;
+}
+
+.dsbi-dash__page {
+  margin: 0 auto;
+  max-width: 96rem;
+  padding: 1.25rem 1.5rem 2rem;
+  width: 100%;
+}
+
+.dsbi-dash__head {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.dsbi-dash__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.dsbi-dash__subtitle {
+  color: var(--dash-muted);
+  margin: 0.15rem 0 0;
+}
+
+.dsbi-dash__badge {
+  align-items: center;
+  background-color: var(--dash-primary-soft);
+  border: 1px solid #bfd3fb;
+  border-radius: 999px;
+  color: #1e40af;
+  display: inline-flex;
+  font-size: 0.85rem;
+  font-weight: 600;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+}
+
+/* Key figures */
+.dsbi-dash__kpis {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  margin-bottom: 0.75rem;
+}
+
+.dsbi-dash__kpi {
+  background: linear-gradient(180deg, var(--dash-surface) 0%, var(--dash-primary-soft) 100%);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius);
+  box-shadow: var(--dash-shadow);
+  padding: 0.9rem 1rem;
+}
+
+.dsbi-dash__kpi-label {
+  color: var(--dash-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.dsbi-dash__kpi-value {
+  font-size: 1.9rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0.2rem 0;
+}
+
+.dsbi-dash__kpi-delta {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.dsbi-dash__kpi-delta.is-good {
+  color: var(--dash-success);
+}
+
+.dsbi-dash__kpi-delta.is-bad {
+  color: var(--dash-danger);
+}
+
+.dsbi-dash__kpi-delta span {
+  color: var(--dash-muted);
+  font-weight: 400;
+}
+
+/* Cards */
+.dsbi-dash__grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dsbi-dash__card {
+  background-color: var(--dash-surface);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius);
+  box-shadow: var(--dash-shadow);
+  min-width: 0;
+  padding: 1rem 1rem 0.75rem;
+}
+
+.dsbi-dash__card--wide {
+  grid-column: 1 / -1;
+}
+
+.dsbi-dash__card-head {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.dsbi-dash__card-head h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dsbi-dash__card-note {
+  color: var(--dash-muted);
+  font-size: 0.85rem;
+}
+
+.dsbi-dash__chart {
+  height: 16rem;
+  width: 100%;
+}
+
+.dsbi-dash__chart--tall {
+  height: 20rem;
+}
+
+/* Agenda table */
+.dsbi-dash__table {
+  margin: 0.25rem 0 0;
+}
+
+.dsbi-dash__table th {
+  border-top: 0;
+  color: var(--dash-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dsbi-dash__table td {
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.dsbi-dash__meter {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  min-width: 9rem;
+}
+
+.dsbi-dash__meter-track {
+  background-color: #e9eef5;
+  border-radius: 999px;
+  flex: 1 1 auto;
+  height: 0.45rem;
+  overflow: hidden;
+}
+
+.dsbi-dash__meter-fill {
+  background-color: var(--dash-primary);
+  border-radius: 999px;
+  display: block;
+  height: 100%;
+}
+
+.dsbi-dash__meter-value {
+  font-weight: 600;
+  min-width: 2.75rem;
+  text-align: right;
+}
+
+/* Phones and small tablets */
+@media (max-width: 61.99rem) {
+  .dsbi-dash__page {
+    padding: 1rem 0.75rem 1.5rem;
+  }
+
+  .dsbi-dash__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dsbi-dash__kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dsbi-dash__kpi-value {
+    font-size: 1.5rem;
+  }
+
+  .dsbi-dash__title {
+    font-size: 1.3rem;
+  }
+}

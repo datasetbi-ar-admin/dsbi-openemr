@@ -28,7 +28,8 @@ En **Administration → Config** (requiere cerrar sesión y volver a entrar):
 | `_modules.scss` | Ajustes por pantalla, cada uno anclado al selector raíz de esa pantalla. |
 | `../oe-styles/style_dsbi.scss` | Punto de entrada del tema general. |
 | `../tabs_style_dsbi.scss` | Diseño de pestañas con menú lateral. |
-| `interface/main/tabs/js/dsbi_sidebar.js` | Plegado del menú lateral y acordeón de submenús. Solo actúa con el diseño de pestañas Dsbi. |
+| `interface/main/tabs/js/dsbi_sidebar.js` | Plegado del menú lateral (botón ☰ del encabezado) y acordeón de submenús. En pantallas anchas alterna entre texto e íconos y recuerda la elección; en celulares y tablets chicas (< 62rem) el menú queda en íconos y se abre como panel sobre el contenido. Solo actúa con el diseño de pestañas Dsbi. |
+| `interface/dsbi/dashboards/` | Menú **Dashboards**: tablero de turnos y agendas con ECharts. Datos inventados en el navegador (`dsbi_dashboards.js`), no lee la base. |
 | `templates/login/layouts/dsbi_split.html.twig` | Diseño de login; reutiliza los parciales originales del formulario. |
 
 ## Archivos existentes modificados
@@ -36,7 +37,9 @@ En **Administration → Config** (requiere cerrar sesión y volver a entrar):
 | Archivo | Cambio |
 |---|---|
 | `webpack.themes.js` | Entradas de compilación del tema (4 variantes) y del diseño de pestañas (2). |
-| `package.json`, `package-lock.json` | Dependencia `@fontsource-variable/dm-sans`; la fuente se sirve desde `public/assets`, sin CDN. |
+| `package.json`, `package-lock.json` | Dependencias `@fontsource-variable/dm-sans` y `echarts`; se sirven desde `public/assets`, sin CDN. |
+| `config/config.yaml` | Registra el asset `echarts` para `Header::setupHeader()`. |
+| `interface/main/tabs/menu/menus/standard.json` | Entrada principal **Dashboards** (`menu_id` `dsbidash`), con el mismo permiso que el calendario (`patients/appt`). |
 | `.stylelintignore` | Excluye estos SCSS, igual que el resto de los temas (la configuración del linter no interpreta Sass). |
 | `library/globals.inc.php` | Una línea: registra el diseño de login en la lista de opciones. |
 | `interface/main/tabs/main.php` | Una línea: carga `dsbi_sidebar.js`. |
