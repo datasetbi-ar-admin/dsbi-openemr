@@ -17,8 +17,8 @@
  * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
  */
 
-require_once("../../globals.php");
-require_once(__DIR__ . "/../i18n/dsbi_i18n.php");
+require_once __DIR__ . "/../../../../../globals.php";
+require_once __DIR__ . "/../i18n.php";
 
 use OpenEMR\Common\Acl\AccessDeniedHelper;
 use OpenEMR\Common\Acl\AclMain;
@@ -26,18 +26,18 @@ use OpenEMR\Core\Header;
 use OpenEMR\Core\OEGlobalsBag;
 
 if (!AclMain::aclCheckCore('patients', 'appt')) {
-    AccessDeniedHelper::denyWithTemplate("ACL check failed for patients/appt: DSBI booking assistant", xl("Booking Assistant"));
+    AccessDeniedHelper::denyWithTemplate("ACL check failed for patients/appt: DSBI booking assistant", xl("Booking Assistant{{Booking assistant}}"));
 }
 
 $version = OEGlobalsBag::getInstance()->getString('v_js_includes');
 
-$language = dsbiI18nLanguage();
-$strings = dsbiI18nStrings(__DIR__ . '/lang');
+/** @var array<string, string> $strings */
+$strings = require __DIR__ . '/strings.php';
 $tt = fn(string $text): string => text($strings[$text] ?? $text);
 $ta = fn(string $text): string => attr($strings[$text] ?? $text);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo attr($language[1] ?? 'en'); ?>">
+<html lang="<?php echo attr(dsbiModuleLocale() ?? 'en'); ?>">
 <head>
     <title><?php echo $tt('Booking Assistant'); ?></title>
     <?php Header::setupHeader(); ?>
@@ -176,7 +176,7 @@ $ta = fn(string $text): string => attr($strings[$text] ?? $text);
     </aside>
 </div>
 <script>
-    window.dsbiTurI18n = <?php echo json_encode(['locale' => $language[1] ?? null, 'strings' => (object) $strings], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE); ?>;
+    window.dsbiTurI18n = <?php echo dsbiModuleI18nJson($strings); ?>;
 </script>
 <script src="dsbi_turnos.js?v=<?php echo attr_url($version); ?>"></script>
 </body>

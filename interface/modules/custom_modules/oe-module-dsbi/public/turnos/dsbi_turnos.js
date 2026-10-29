@@ -24,8 +24,8 @@
     const WINDOW_DAYS = 60;
     const STEPS = ['patient', 'specialty', 'provider', 'slot', 'confirm'];
 
-    // Strings and locale come from the page (index.php), which picks them by
-    // the session language; English is the source text and the fallback.
+    // Strings and locale come from the page (index.php), translated by xl()
+    // for the session language; English is the source text and the fallback.
     const I18N = window.dsbiTurI18n || { locale: undefined, strings: {} };
 
     function xl(text) {
@@ -950,7 +950,8 @@
             renderAll();
         });
         const slot = findSlot(key);
-        agent(xlf('Done! Your appointment is booked ✅\n{date} · {time}\n{provider} · {room}\nCode: {code}\nPlease arrive 10 minutes early with your DNI and insurance card. If you cannot make it, write to me and I will cancel it.', { date: fmtLong.format(slot.day), time: slot.time, provider: slot.provider.name, room: slot.provider.room, code: code }), [
+        // {br} and {ok} stand in for the line breaks and emoji, which xl() would not keep.
+        agent(xlf('Done! Your appointment is booked {ok}{br}{date} · {time}{br}{provider} · {room}{br}Code: {code}{br}Please arrive 10 minutes early with your DNI and insurance card. If you cannot make it, write to me and I will cancel it.', { ok: '✅', br: '\n', date: fmtLong.format(slot.day), time: slot.time, provider: slot.provider.name, room: slot.provider.room, code: code }), [
             { label: xl('Cancel this appointment'), say: xl('I need to cancel the appointment'), danger: true, run: () => cancel(key) },
             { label: xl('Book another one'), run: () => resetFrom('specialty') },
             { label: xl('That is all, thanks'), run: bye }

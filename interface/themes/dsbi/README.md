@@ -29,19 +29,16 @@ En **Administration → Config** (requiere cerrar sesión y volver a entrar):
 | `../oe-styles/style_dsbi.scss` | Punto de entrada del tema general. |
 | `../tabs_style_dsbi.scss` | Diseño de pestañas con menú lateral. |
 | `interface/main/tabs/js/dsbi_sidebar.js` | Plegado del menú lateral (botón ☰ del encabezado) y acordeón de submenús. En pantallas anchas alterna entre texto e íconos y recuerda la elección; en celulares y tablets chicas (< 62rem) el menú queda en íconos y se abre como panel sobre el contenido. Solo actúa con el diseño de pestañas Dsbi. |
-| `interface/dsbi/dashboards/` | Menú **Dashboards**: tablero de turnos y agendas con ECharts. Datos inventados en el navegador (`dsbi_dashboards.js`), no lee la base. |
-| `interface/dsbi/turnos/` | Menú **Booking Assistant** (Asistente de turnos): maqueta de un agente que da turnos por chat, con solapas por etapa (paciente por DNI, especialidad, profesional, día y horario en los próximos 60 días, confirmación y cancelación). Datos inventados en el navegador (`dsbi_turnos.js`); no lee ni escribe la base. |
-| `interface/dsbi/i18n/` | Idioma de las pantallas DSBI: `dsbi_i18n.php` elige los textos de `<pantalla>/lang/es.php` según el idioma de la sesión (Spanish → castellano, el resto inglés). `menu_labels.sql` carga en la base la traducción de las entradas del menú; hay que correrlo de nuevo si se recrea la base. |
 | `templates/login/layouts/dsbi_split.html.twig` | Diseño de login; reutiliza los parciales originales del formulario. |
+
+Las pantallas **Dashboards** y **Booking Assistant** no son parte del tema: están en el módulo `interface/modules/custom_modules/oe-module-dsbi/` (ver su README). Con el tema activo, sus entradas del menú (`dsbidash`, `dsbitur`) toman los íconos de `../tabs_style_dsbi.scss`.
 
 ## Archivos existentes modificados
 
 | Archivo | Cambio |
 |---|---|
 | `webpack.themes.js` | Entradas de compilación del tema (4 variantes) y del diseño de pestañas (2). |
-| `package.json`, `package-lock.json` | Dependencias `@fontsource-variable/dm-sans` y `echarts`; se sirven desde `public/assets`, sin CDN. |
-| `config/config.yaml` | Registra el asset `echarts` para `Header::setupHeader()`. |
-| `interface/main/tabs/menu/menus/standard.json` | Entradas principales **Dashboards** (`menu_id` `dsbidash`) y **Booking Assistant** (`dsbitur`), con el mismo permiso que el calendario (`patients/appt`). Sus íconos están en `../tabs_style_dsbi.scss`. |
+| `package.json`, `package-lock.json` | Dependencia `@fontsource-variable/dm-sans`; se sirve desde `public/assets`, sin CDN. |
 | `.stylelintignore` | Excluye estos SCSS, igual que el resto de los temas (la configuración del linter no interpreta Sass). |
 | `library/globals.inc.php` | Una línea: registra el diseño de login en la lista de opciones. |
 | `interface/main/tabs/main.php` | Una línea: carga `dsbi_sidebar.js`. |

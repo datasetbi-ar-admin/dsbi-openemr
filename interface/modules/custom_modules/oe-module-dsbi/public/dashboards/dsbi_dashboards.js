@@ -24,17 +24,21 @@
     const SEQUENTIAL = ['#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95', '#0d366b'];
     const FONT = '"DM Sans Variable", "DM Sans", system-ui, sans-serif';
 
+    // Strings and locale come from the page (index.php), translated by xl()
+    // for the session language; English is the source text and the fallback.
+    const I18N = window.dsbiDashI18n || { locale: null, strings: {} };
+    const LOCALE = I18N.locale || undefined;
+
     function xl(text) {
-        const fn = typeof window.xl === 'function' ? window.xl : (window.top && typeof window.top.xl === 'function' ? window.top.xl : null);
-        return (fn && fn(text)) || text;
+        return I18N.strings[text] || text;
     }
 
-    const number = new Intl.NumberFormat(undefined);
-    const percent = new Intl.NumberFormat(undefined, { style: 'percent', maximumFractionDigits: 1 });
-    const monthName = new Intl.DateTimeFormat(undefined, { month: 'short', year: '2-digit' });
-    const dayName = new Intl.DateTimeFormat(undefined, { day: 'numeric', month: 'short' });
-    const weekdayName = new Intl.DateTimeFormat(undefined, { weekday: 'short' });
-    const slotDate = new Intl.DateTimeFormat(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    const number = new Intl.NumberFormat(LOCALE);
+    const percent = new Intl.NumberFormat(LOCALE, { style: 'percent', maximumFractionDigits: 1 });
+    const monthName = new Intl.DateTimeFormat(LOCALE, { month: 'short', year: '2-digit' });
+    const dayName = new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'short' });
+    const weekdayName = new Intl.DateTimeFormat(LOCALE, { weekday: 'short' });
+    const slotDate = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
     // Deterministic pseudo-random numbers (mulberry32).
     function seeded(seed) {
@@ -143,17 +147,17 @@
         { label: xl('Attendance'), value: percent.format(last.attended / last.total), delta: last.attended / last.total - previous.attended / previous.total, goodWhenUp: true, points: true },
         { label: xl('No-show rate'), value: percent.format(last.noShow / last.total), delta: last.noShow / last.total - previous.noShow / previous.total, goodWhenUp: false, points: true },
         { label: xl('Schedule occupancy'), value: percent.format(last.occupancy), delta: last.occupancy - previous.occupancy, goodWhenUp: true, points: true },
-        { label: xl('Average wait for a slot'), value: avgLead.toLocaleString(undefined, { maximumFractionDigits: 1 }) + ' ' + xl('days'), delta: avgLead - avgLeadPrevious, goodWhenUp: false, days: true }
+        { label: xl('Average wait for a slot'), value: avgLead.toLocaleString(LOCALE, { maximumFractionDigits: 1 }) + ' ' + xl('days'), delta: avgLead - avgLeadPrevious, goodWhenUp: false, days: true }
     ];
 
     function formatDelta(kpi) {
         const sign = kpi.delta > 0 ? '+' : (kpi.delta < 0 ? '−' : '');
         const size = Math.abs(kpi.delta);
         if (kpi.points) {
-            return sign + (size * 100).toLocaleString(undefined, { maximumFractionDigits: 1 }) + ' ' + xl('pts');
+            return sign + (size * 100).toLocaleString(LOCALE, { maximumFractionDigits: 1 }) + ' ' + xl('pts');
         }
         if (kpi.days) {
-            return sign + size.toLocaleString(undefined, { maximumFractionDigits: 1 }) + ' ' + xl('days');
+            return sign + size.toLocaleString(LOCALE, { maximumFractionDigits: 1 }) + ' ' + xl('days');
         }
         return sign + percent.format(size);
     }
@@ -186,7 +190,7 @@
         kpiBox.appendChild(card);
     });
 
-    document.getElementById('dsbi-dash-updated').textContent = xl('Updated') + ' ' + today.toLocaleDateString();
+    document.getElementById('dsbi-dash-updated').textContent = xl('Updated') + ' ' + today.toLocaleDateString(LOCALE);
 
     /* ---------- Agenda table ---------- */
 
