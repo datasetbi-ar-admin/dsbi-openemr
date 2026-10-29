@@ -17,10 +17,14 @@ pantallas de punta a punta, sin errores de PHP ni de consola.
 ## Qué toca y qué no
 
 - **No modifica ningún archivo de OpenEMR.** Todo vive en esta carpeta.
-- **Menú:** las entradas se agregan por evento (`MenuEvent::MENU_UPDATE`) mientras el módulo
-  está habilitado. Aparecen en cualquier menú, también en un menú propio como `clinica.json`,
-  justo después de *Calendario* (o al final si el menú no lo tiene). No hace falta editar el
-  menú.
+- **Menú:** una sola entrada, **DatasetBI**, con **Tableros** y **Asistente de turnos**
+  adentro, para no alargar la barra del menú. Se agrega por evento (`MenuEvent::MENU_UPDATE`)
+  mientras el módulo está habilitado y aparece en cualquier menú, también en un menú propio
+  como `clinica.json`, justo después de *Calendario* (o al final si el menú no lo tiene). No
+  hace falta editar el menú. El nombre "DatasetBI" se cambia sin tocar código, en
+  **Administración → Idioma → Definiciones** (constante `DatasetBI{{Menu}}`).
+- **Números y fechas:** con el idioma *Spanish (Latin American)* se formatean como en
+  Argentina (`3.960`, `81,4 %`).
 - **Permiso:** el mismo que el calendario (`patients` / `appt`), en el menú y en cada pantalla.
 - **ECharts 5.6.0** viene adentro (`public/vendor/echarts/`, licencia Apache 2.0 en esa
   carpeta). No depende de `public/assets` ni de `config.yaml`.
@@ -38,7 +42,7 @@ pantallas de punta a punta, sin errores de PHP ni de consola.
 ```
 oe-module-dsbi/
 ├── info.txt                  nombre que muestra el Module Manager
-├── openemr.bootstrap.php     agrega las 2 entradas al menú
+├── openemr.bootstrap.php     agrega la entrada DatasetBI al menú
 ├── public/
 │   ├── i18n.php              locale de la sesión para fechas y números
 │   ├── dashboards/           index.php, strings.php, JS y CSS
@@ -106,8 +110,8 @@ Si después se corrige algún texto en **Administración → Idioma → Definici
 
 ### 5. Verificar
 
-Cerrar sesión y volver a entrar: en el menú aparecen **Tableros** y **Asistente de turnos**
-después de *Calendario*. Abrir las dos y revisar `docker logs --since 10m openemr-nuevo-openemr-1`.
+Cerrar sesión y volver a entrar: después de *Calendario* aparece **DatasetBI**, con
+**Tableros** y **Asistente de turnos** adentro. Abrir las dos y revisar `docker logs --since 10m openemr-nuevo-openemr-1`.
 
 ### 6. Anotar en `OVERRIDES.md`
 

@@ -1,8 +1,8 @@
 <?php
 
 /**
- * DSBI module bootstrap: adds the Dashboards and Booking Assistant entries to
- * the main menu.
+ * DSBI module bootstrap: adds a "DatasetBI" entry to the main menu with the
+ * Dashboards and Booking Assistant screens under it.
  *
  * OpenEMR loads this file only while the module is enabled in
  * Administration -> Modules -> Manage Modules. The entries are added through
@@ -26,30 +26,26 @@ $eventDispatcher = OEGlobalsBag::getInstance()->getKernel()->getEventDispatcher(
 $eventDispatcher->addListener(MenuEvent::MENU_UPDATE, static function (MenuEvent $event): void {
     $base = '/interface/modules/custom_modules/oe-module-dsbi/public';
 
-    // Labels are translated here because the menu loader has already run
-    // xlt() over the menu file's own labels by the time this event fires.
-    $entries = [
-        ['dsbidash', 'dsb', xlt('Dashboards{{Dashboards}}'), $base . '/dashboards/index.php'],
-        ['dsbitur', 'dtu', xlt('Booking Assistant{{Booking assistant}}'), $base . '/turnos/index.php'],
-    ];
-
     $menu = $event->getMenu();
     if (!is_array($menu)) {
         return;
     }
-
-    $existing = [];
+    $menu = array_values($menu);
     foreach ($menu as $item) {
-        if (is_object($item) && isset($item->menu_id) && is_string($item->menu_id)) {
-            $existing[$item->menu_id] = true;
+        if (is_object($item) && ($item->menu_id ?? null) === 'dsbi0') {
+            return;
         }
     }
 
-    $new = [];
-    foreach ($entries as [$menuId, $target, $label, $url]) {
-        if (isset($existing[$menuId])) {
-            continue;
-        }
+    // Labels are translated here because the menu loader has already run
+    // xlt() over the menu file's own labels by the time this event fires.
+    $children = [];
+    foreach (
+        [
+            ['dsbidash', 'dsb', xlt('Dashboards{{Dashboards}}'), $base . '/dashboards/index.php'],
+            ['dsbitur', 'dtu', xlt('Booking Assistant{{Booking assistant}}'), $base . '/turnos/index.php'],
+        ] as [$menuId, $target, $label, $url]
+    ) {
         $entry = new stdClass();
         $entry->label = $label;
         $entry->menu_id = $menuId;
@@ -60,21 +56,26 @@ $eventDispatcher->addListener(MenuEvent::MENU_UPDATE, static function (MenuEvent
         // Same permission as the calendar.
         $entry->acl_req = ['patients', 'appt'];
         $entry->global_req = [];
-        $new[] = $entry;
+        $children[] = $entry;
     }
-    if ($new === []) {
-        return;
-    }
+
+    // One top-level entry holding both screens, to keep the menu bar short.
+    // Without a url it is a header: OpenEMR drops it when the user may not
+    // see any of its children.
+    $group = new stdClass();
+    $group->label = xlt('DatasetBI{{Menu}}');
+    $group->menu_id = 'dsbi0';
+    $group->children = $children;
+    $group->requirement = 0;
 
     // Right after the calendar when the menu has one, otherwise at the end.
     $position = count($menu);
-    foreach (array_values($menu) as $index => $item) {
+    foreach ($menu as $index => $item) {
         if (is_object($item) && ($item->menu_id ?? null) === 'cal0') {
             $position = $index + 1;
             break;
         }
     }
-    $menu = array_values($menu);
-    array_splice($menu, $position, 0, $new);
+    array_splice($menu, $position, 0, [$group]);
     $event->setMenu($menu);
 });

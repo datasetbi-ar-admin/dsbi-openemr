@@ -33,8 +33,10 @@ function dsbiModuleLocale(): ?string
     $row = sqlQuery("SELECT lang_description FROM lang_languages WHERE lang_id = ?", [$langId]);
     $description = is_array($row) && is_string($row['lang_description'] ?? null) ? $row['lang_description'] : '';
     $locale = null;
+    // Latin American Spanish formats as in Argentina (3.960 · 81,4 %), matching
+    // the Rioplatense wording and the Argentine demo data.
     if (str_starts_with($description, 'Spanish')) {
-        $locale = str_contains($description, 'Latin') ? 'es-419' : 'es-ES';
+        $locale = str_contains($description, 'Latin') ? 'es-AR' : 'es-ES';
     }
     return $locale;
 }

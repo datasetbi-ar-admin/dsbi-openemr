@@ -38,7 +38,7 @@
     const monthName = new Intl.DateTimeFormat(LOCALE, { month: 'short', year: '2-digit' });
     const dayName = new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'short' });
     const weekdayName = new Intl.DateTimeFormat(LOCALE, { weekday: 'short' });
-    const slotDate = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    const slotDate = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: LOCALE ? 'h23' : undefined });
 
     // Deterministic pseudo-random numbers (mulberry32).
     function seeded(seed) {

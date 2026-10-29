@@ -1,6 +1,7 @@
 --
 -- oe-module-dsbi: Spanish (Latin American) texts for Dashboards and the
--- Booking Assistant, menu labels included.
+-- Booking Assistant, menu labels included (the "DatasetBI" menu entry can be
+-- renamed by editing its row in Administration -> Language).
 --
 -- Each text carries a {{context}} (for example 'Provider{{Booking assistant}}')
 -- so it never collides with a stock OpenEMR translation of the same word.
@@ -197,6 +198,7 @@ SELECT t.constant_name FROM (
     UNION ALL SELECT 'Dermatology{{Dashboards}}', 'Dermatología'
     UNION ALL SELECT 'Ophthalmology{{Dashboards}}', 'Oftalmología'
     UNION ALL SELECT 'Physical therapy{{Dashboards}}', 'Kinesiología'
+    UNION ALL SELECT 'DatasetBI{{Menu}}', 'DatasetBI'
 ) t
 WHERE NOT EXISTS (SELECT 1 FROM lang_constants c WHERE BINARY c.constant_name = BINARY t.constant_name);
 
@@ -387,6 +389,7 @@ SELECT c.cons_id, l.lang_id, t.definition FROM (
     UNION ALL SELECT 'Dermatology{{Dashboards}}', 'Dermatología'
     UNION ALL SELECT 'Ophthalmology{{Dashboards}}', 'Oftalmología'
     UNION ALL SELECT 'Physical therapy{{Dashboards}}', 'Kinesiología'
+    UNION ALL SELECT 'DatasetBI{{Menu}}', 'DatasetBI'
 ) t
 JOIN lang_constants c ON BINARY c.constant_name = BINARY t.constant_name
 JOIN lang_languages l ON l.lang_description = 'Spanish (Latin American)'

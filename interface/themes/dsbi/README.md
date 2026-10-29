@@ -31,7 +31,7 @@ En **Administration → Config** (requiere cerrar sesión y volver a entrar):
 | `interface/main/tabs/js/dsbi_sidebar.js` | Plegado del menú lateral (botón ☰ del encabezado) y acordeón de submenús. En pantallas anchas alterna entre texto e íconos y recuerda la elección; en celulares y tablets chicas (< 62rem) el menú queda en íconos y se abre como panel sobre el contenido. Solo actúa con el diseño de pestañas Dsbi. |
 | `templates/login/layouts/dsbi_split.html.twig` | Diseño de login; reutiliza los parciales originales del formulario. |
 
-Las pantallas **Dashboards** y **Booking Assistant** no son parte del tema: están en el módulo `interface/modules/custom_modules/oe-module-dsbi/` (ver su README). Con el tema activo, sus entradas del menú (`dsbidash`, `dsbitur`) toman los íconos de `../tabs_style_dsbi.scss`.
+Las pantallas **Dashboards** y **Booking Assistant** no son parte del tema: están en el módulo `interface/modules/custom_modules/oe-module-dsbi/` (ver su README). Con el tema activo, su entrada del menú (`dsbi0`) y las de adentro (`dsbidash`, `dsbitur`) toman los íconos de `../tabs_style_dsbi.scss`.
 
 ## Archivos existentes modificados
 
