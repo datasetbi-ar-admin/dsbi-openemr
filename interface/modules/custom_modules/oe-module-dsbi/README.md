@@ -10,8 +10,9 @@ Módulo propio de OpenEMR con dos pantallas de demostración:
 **Las dos son demos:** todos los datos se inventan en el navegador. No leen ni escriben
 la base de datos, no crean tablas y recargar la página vuelve a empezar.
 
-Revisado contra el código de OpenEMR **8.4.0** (usa `OEGlobalsBag`,
-`SessionWrapperFactory`, `AccessDeniedHelper` y `MenuEvent`, que existen en esa versión).
+Probado en la imagen oficial `openemr/openemr:8.4.0` con el módulo montado `:ro`: instalación,
+habilitación, SQL (dos corridas, sin duplicados), menú en castellano y en inglés, y las dos
+pantallas de punta a punta, sin errores de PHP ni de consola.
 
 ## Qué toca y qué no
 
@@ -85,10 +86,13 @@ docker compose -p openemr-nuevo -f docker-compose-local.yml up -d
 
 ### 3. Habilitar el módulo
 
-En OpenEMR: **Administración → Módulos → Administrar módulos**, pestaña *Unregistered*:
-**Register** → **Install** → **Enable** sobre *DSBI Dashboards and Booking Assistant*.
+En OpenEMR: **Administración → Módulos → Administrar módulos**. En 8.4.0 el módulo aparece
+solo en *Custom Module Listings* como *DSBI Dashboards and Booking Assistant*, estado
+**Registrado**: botón **Instalar** y después **Habilitar**. (Si en otra versión aparece sin
+registrar, primero **Register**.)
 
-Esto escribe una fila en la tabla `modules`; no crea tablas.
+Esto escribe una fila en la tabla `modules`; no crea tablas. Las entradas del menú aparecen al
+volver a iniciar sesión.
 
 ### 4. Traducciones
 
@@ -133,7 +137,7 @@ git commit -m "Agrega el módulo DSBI con Tableros y Asistente de turnos (demos 
          - ./modulos/oe-module-dsbi:/var/www/localhost/htdocs/openemr/interface/modules/custom_modules/oe-module-dsbi:ro
    ```
    y recrear: `docker compose up -d`.
-3. Habilitar el módulo en **Administrar módulos** (Register → Install → Enable).
+3. Habilitar el módulo en **Administrar módulos** (Instalar → Habilitar).
 4. Correr el SQL en `openemr-db`:
    ```sh
    docker exec -i openemr-db sh -c 'mariadb -u root -p"$MYSQL_ROOT_PASSWORD" openemr' < overrides/sql/traducciones_dsbi.sql
